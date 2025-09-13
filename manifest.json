@@ -1,0 +1,176 @@
+{
+  "name": "مترجم الصوت الذكي - Voice Translator",
+  "short_name": "Voice Translator",
+  "description": "تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة مع ميزات ذكية متطورة",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#4F46E5",
+  "background_color": "#F9FAFB",
+  "lang": "ar",
+  "dir": "rtl",
+  "scope": "/",
+  "categories": ["productivity", "utilities", "education"],
+  "icons": [
+    {
+      "src": "assets/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop view of Voice Translator"
+    },
+    {
+      "src": "assets/screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile view of Voice Translator"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "ترجمة نصية",
+      "short_name": "ترجمة نص",
+      "description": "ابدأ ترجمة نصية فورية",
+      "url": "/translate.html?mode=text",
+      "icons": [
+        {
+          "src": "assets/shortcut-text.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "ترجمة صوتية",
+      "short_name": "ترجمة صوت",
+      "description": "ابدأ ترجمة صوتية فورية",
+      "url": "/translate.html?mode=voice",
+      "icons": [
+        {
+          "src": "assets/shortcut-voice.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "محادثة ثنائية",
+      "short_name": "محادثة",
+      "description": "ابدأ محادثة ثنائية",
+      "url": "/dual-conversation.html",
+      "icons": [
+        {
+          "src": "assets/shortcut-conversation.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "ترجمة ذكية",
+      "short_name": "ذكية",
+      "description": "استخدم الترجمة الذكية",
+      "url": "/smart-translate.html",
+      "icons": [
+        {
+          "src": "assets/shortcut-smart.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "new-client",
+  "protocol_handlers": [
+    {
+      "protocol": "web+translator",
+      "url": "/translate.html?text=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/translate.html?mode=image",
+      "accept": {
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/translate.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "permissions": [
+    "microphone",
+    "camera",
+    "storage"
+  ],
+  "features": [
+    "Cross Platform",
+    "fast",
+    "simple"
+  ],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}
+

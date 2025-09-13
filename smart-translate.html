@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الترجمة الذكية - مترجم الصوت الذكي</title>
+    <meta name="description" content="ترجمة متقدمة بالذكاء الاصطناعي مع فهم السياق والمعنى">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="smart-translate-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </a>
+                <a href="smart-translate.html" class="nav-link active">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="smart-translate-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="smart-translate-header">
+                <h1>الترجمة الذكية</h1>
+                <p>ترجمة متقدمة بالذكاء الاصطناعي مع فهم السياق والمعنى</p>
+            </div>
+
+            <!-- AI Features Overview -->
+            <div class="ai-features">
+                <div class="feature-grid">
+                    <div class="ai-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>فهم السياق</h3>
+                        <p>يحلل النص ويترجم بناءً على السياق والمعنى المقصود</p>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h3>ترجمة طبيعية</h3>
+                        <p>ينتج ترجمات طبيعية ومفهومة كأنها مكتوبة باللغة الهدف</p>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>تحسين تلقائي</h3>
+                        <p>يحسن الترجمة تلقائياً بناءً على نوع المحتوى والجمهور</p>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>اقتراحات ذكية</h3>
+                        <p>يقترح ترجمات بديلة وأفضل للاختيار منها</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Translation Interface -->
+            <div class="smart-translation-interface">
+                <!-- Translation Modes -->
+                <div class="translation-modes">
+                    <button class="mode-btn active" data-mode="contextual">
+                        <i class="fas fa-comments"></i>
+                        ترجمة سياقية
+                    </button>
+                    <button class="mode-btn" data-mode="creative">
+                        <i class="fas fa-palette"></i>
+                        ترجمة إبداعية
+                    </button>
+                    <button class="mode-btn" data-mode="formal">
+                        <i class="fas fa-briefcase"></i>
+                        ترجمة رسمية
+                    </button>
+                    <button class="mode-btn" data-mode="casual">
+                        <i class="fas fa-smile"></i>
+                        ترجمة غير رسمية
+                    </button>
+                </div>
+
+                <!-- Language Selection -->
+                <div class="language-selection">
+                    <div class="language-group">
+                        <label for="smart-source-lang">اللغة المصدر</label>
+                        <select id="smart-source-lang" class="language-select">
+                            <option value="auto">كشف تلقائي</option>
+                            <option value="ar" selected>العربية</option>
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                            <option value="it">Italiano</option>
+                            <option value="pt">Português</option>
+                            <option value="ru">Русский</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                            <option value="ko">한국어</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="tr">Türkçe</option>
+                            <option value="nl">Nederlands</option>
+                            <option value="sv">Svenska</option>
+                            <option value="no">Norsk</option>
+                            <option value="da">Dansk</option>
+                            <option value="fi">Suomi</option>
+                            <option value="pl">Polski</option>
+                            <option value="cs">Čeština</option>
+                            <option value="hu">Magyar</option>
+                            <option value="ro">Română</option>
+                            <option value="bg">Български</option>
+                            <option value="hr">Hrvatski</option>
+                            <option value="sk">Slovenčina</option>
+                            <option value="sl">Slovenščina</option>
+                            <option value="et">Eesti</option>
+                            <option value="lv">Latviešu</option>
+                            <option value="lt">Lietuvių</option>
+                            <option value="el">Ελληνικά</option>
+                            <option value="he">עברית</option>
+                            <option value="fa">فارسی</option>
+                            <option value="ur">اردو</option>
+                            <option value="bn">বাংলা</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                            <option value="ml">മലയാളം</option>
+                            <option value="kn">ಕನ್ನಡ</option>
+                            <option value="gu">ગુજરાતી</option>
+                            <option value="pa">ਪੰਜਾਬੀ</option>
+                            <option value="mr">मराठी</option>
+                            <option value="ne">नेपाली</option>
+                            <option value="si">සිංහල</option>
+                            <option value="my">မြန်မာ</option>
+                            <option value="th">ไทย</option>
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="id">Bahasa Indonesia</option>
+                            <option value="ms">Bahasa Melayu</option>
+                            <option value="tl">Filipino</option>
+                            <option value="sw">Kiswahili</option>
+                            <option value="am">አማርኛ</option>
+                            <option value="yo">Yorùbá</option>
+                            <option value="ig">Igbo</option>
+                            <option value="ha">Hausa</option>
+                            <option value="zu">IsiZulu</option>
+                            <option value="af">Afrikaans</option>
+                            <option value="sq">Shqip</option>
+                            <option value="mk">Македонски</option>
+                            <option value="sr">Српски</option>
+                            <option value="bs">Bosanski</option>
+                            <option value="mt">Malti</option>
+                            <option value="is">Íslenska</option>
+                            <option value="ga">Gaeilge</option>
+                            <option value="cy">Cymraeg</option>
+                            <option value="eu">Euskera</option>
+                            <option value="ca">Català</option>
+                            <option value="gl">Galego</option>
+                        </select>
+                    </div>
+                    
+                    <button class="swap-languages" id="smart-swap-languages">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    
+                    <div class="language-group">
+                        <label for="smart-target-lang">اللغة الهدف</label>
+                        <select id="smart-target-lang" class="language-select">
+                            <option value="ar">العربية</option>
+                            <option value="en" selected>English</option>
+                            <option value="fr">Français</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                            <option value="it">Italiano</option>
+                            <option value="pt">Português</option>
+                            <option value="ru">Русский</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                            <option value="ko">한국어</option>
+                            <option value="hi">हिन्दी</option>
+                            <option value="tr">Türkçe</option>
+                            <option value="nl">Nederlands</option>
+                            <option value="sv">Svenska</option>
+                            <option value="no">Norsk</option>
+                            <option value="da">Dansk</option>
+                            <option value="fi">Suomi</option>
+                            <option value="pl">Polski</option>
+                            <option value="cs">Čeština</option>
+                            <option value="hu">Magyar</option>
+                            <option value="ro">Română</option>
+                            <option value="bg">Български</option>
+                            <option value="hr">Hrvatski</option>
+                            <option value="sk">Slovenčina</option>
+                            <option value="sl">Slovenščina</option>
+                            <option value="et">Eesti</option>
+                            <option value="lv">Latviešu</option>
+                            <option value="lt">Lietuvių</option>
+                            <option value="el">Ελληνικά</option>
+                            <option value="he">עברית</option>
+                            <option value="fa">فارسی</option>
+                            <option value="ur">اردو</option>
+                            <option value="bn">বাংলা</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                            <option value="ml">മലയാളം</option>
+                            <option value="kn">ಕನ್ನಡ</option>
+                            <option value="gu">ગુજરાતી</option>
+                            <option value="pa">ਪੰਜਾਬੀ</option>
+                            <option value="mr">मराठी</option>
+                            <option value="ne">नेपाली</option>
+                            <option value="si">සිංහල</option>
+                            <option value="my">မြန်မာ</option>
+                            <option value="th">ไทย</option>
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="id">Bahasa Indonesia</option>
+                            <option value="ms">Bahasa Melayu</option>
+                            <option value="tl">Filipino</option>
+                            <option value="sw">Kiswahili</option>
+                            <option value="am">አማርኛ</option>
+                            <option value="yo">Yorùbá</option>
+                            <option value="ig">Igbo</option>
+                            <option value="ha">Hausa</option>
+                            <option value="zu">IsiZulu</option>
+                            <option value="af">Afrikaans</option>
+                            <option value="sq">Shqip</option>
+                            <option value="mk">Македонски</option>
+                            <option value="sr">Српски</option>
+                            <option value="bs">Bosanski</option>
+                            <option value="mt">Malti</option>
+                            <option value="is">Íslenska</option>
+                            <option value="ga">Gaeilge</option>
+                            <option value="cy">Cymraeg</option>
+                            <option value="eu">Euskera</option>
+                            <option value="ca">Català</option>
+                            <option value="gl">Galego</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Content Type Selection -->
+                <div class="content-type-selection">
+                    <h3>نوع المحتوى</h3>
+                    <div class="content-types">
+                        <button class="content-type-btn active" data-type="general">
+                            <i class="fas fa-file-alt"></i>
+                            عام
+                        </button>
+                        <button class="content-type-btn" data-type="business">
+                            <i class="fas fa-briefcase"></i>
+                            أعمال
+                        </button>
+                        <button class="content-type-btn" data-type="academic">
+                            <i class="fas fa-graduation-cap"></i>
+                            أكاديمي
+                        </button>
+                        <button class="content-type-btn" data-type="creative">
+                            <i class="fas fa-palette"></i>
+                            إبداعي
+                        </button>
+                        <button class="content-type-btn" data-type="technical">
+                            <i class="fas fa-code"></i>
+                            تقني
+                        </button>
+                        <button class="content-type-btn" data-type="medical">
+                            <i class="fas fa-stethoscope"></i>
+                            طبي
+                        </button>
+                        <button class="content-type-btn" data-type="legal">
+                            <i class="fas fa-gavel"></i>
+                            قانوني
+                        </button>
+                        <button class="content-type-btn" data-type="marketing">
+                            <i class="fas fa-bullhorn"></i>
+                            تسويق
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Translation Interface -->
+                <div class="translation-interface">
+                    <div class="input-panel">
+                        <div class="panel-header">
+                            <h3>النص المراد ترجمته</h3>
+                            <div class="panel-actions">
+                                <button class="action-btn" id="smart-clear-input" title="مسح النص">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button class="action-btn" id="smart-copy-input" title="نسخ النص">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="action-btn" id="smart-analyze-text" title="تحليل النص">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <textarea 
+                            id="smart-input-text" 
+                            class="translation-textarea" 
+                            placeholder="اكتب النص المراد ترجمته هنا... سيتم تحليله وترجمته بذكاء"
+                            rows="8"
+                        ></textarea>
+                        <div class="input-footer">
+                            <div class="text-analysis" id="text-analysis">
+                                <span class="analysis-item">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span id="word-count">0 كلمة</span>
+                                </span>
+                                <span class="analysis-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span id="reading-time">0 دقيقة قراءة</span>
+                                </span>
+                                <span class="analysis-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span id="content-tone">محايد</span>
+                                </span>
+                            </div>
+                            <button class="btn btn-primary" id="smart-translate">
+                                <i class="fas fa-magic"></i>
+                                ترجمة ذكية
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="output-panel">
+                        <div class="panel-header">
+                            <h3>الترجمة الذكية</h3>
+                            <div class="panel-actions">
+                                <button class="action-btn" id="smart-speak-output" title="استمع للترجمة">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                <button class="action-btn" id="smart-copy-output" title="نسخ الترجمة">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="action-btn" id="smart-save-translation" title="حفظ في المفضلة">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                                <button class="action-btn" id="smart-improve-translation" title="تحسين الترجمة">
+                                    <i class="fas fa-magic"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="translation-output" id="smart-translation-output">
+                            <div class="placeholder">
+                                <i class="fas fa-brain"></i>
+                                <p>ستظهر الترجمة الذكية هنا</p>
+                            </div>
+                        </div>
+                        <div class="output-footer">
+                            <div class="translation-quality" id="translation-quality">
+                                <div class="quality-indicator">
+                                    <span class="quality-label">جودة الترجمة:</span>
+                                    <div class="quality-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alternative Translations -->
+                <div class="alternative-translations" id="alternative-translations" style="display: none;">
+                    <h3>ترجمات بديلة</h3>
+                    <div class="alternatives-list" id="alternatives-list">
+                        <!-- Alternative translations will be populated here -->
+                    </div>
+                </div>
+
+                <!-- AI Insights -->
+                <div class="ai-insights" id="ai-insights" style="display: none;">
+                    <h3>رؤى الذكاء الاصطناعي</h3>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>اقتراحات التحسين</h4>
+                            <div class="insight-content" id="improvement-suggestions">
+                                <!-- Improvement suggestions will be populated here -->
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <h4>معلومات السياق</h4>
+                            <div class="insight-content" id="context-info">
+                                <!-- Context information will be populated here -->
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4>تحليل النص</h4>
+                            <div class="insight-content" id="text-analysis-details">
+                                <!-- Text analysis details will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Translation History -->
+            <div class="smart-history">
+                <h3>تاريخ الترجمات الذكية</h3>
+                <div class="history-list" id="smart-history-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>لا توجد ترجمات ذكية حديثة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري التحليل والترجمة الذكية...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="smart-translate-script.js"></script>
+</body>
+</html>
+

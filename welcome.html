@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرحباً بك - مترجم الصوت الذكي</title>
+    <meta name="description" content="دليل الاستخدام والتعرف على ميزات مترجم الصوت الذكي">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="welcome-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="welcome-container">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="welcome-hero">
+                <div class="hero-content">
+                    <h1>مرحباً بك في مترجم الصوت الذكي</h1>
+                    <p>اكتشف قوة الترجمة المتقدمة مع أكثر من 100 لغة وميزات ذكية متطورة</p>
+                    <div class="hero-actions">
+                        <a href="translate.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-play"></i>
+                            ابدأ الآن
+                        </a>
+                        <a href="#features" class="btn btn-outline btn-large">
+                            <i class="fas fa-info-circle"></i>
+                            تعرف على المزيد
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-elements">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-microphone"></i>
+                            <span>ترجمة صوتية</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-language"></i>
+                            <span>100+ لغة</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-brain"></i>
+                            <span>ذكاء اصطناعي</span>
+                        </div>
+                        <div class="floating-card card-4">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>PWA</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Overview -->
+            <section class="features-overview" id="features">
+                <h2>الميزات الرئيسية</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>الترجمة الصوتية</h3>
+                        <p>ترجمة فورية للكلام مع دقة عالية في التعرف على الأصوات</p>
+                        <ul class="feature-list">
+                            <li>تعرف على الصوت في الوقت الفعلي</li>
+                            <li>دعم أكثر من 100 لغة</li>
+                            <li>نطق طبيعي للترجمات</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h3>الترجمة النصية</h3>
+                        <p>ترجمة النصوص بدقة عالية مع الحفاظ على المعنى والسياق</p>
+                        <ul class="feature-list">
+                            <li>ترجمة فورية للنصوص</li>
+                            <li>دعم النصوص الطويلة</li>
+                            <li>ترجمات بديلة</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>ترجمة الصور</h3>
+                        <p>استخراج وترجمة النصوص من الصور باستخدام تقنية OCR</p>
+                        <ul class="feature-list">
+                            <li>استخراج النص من الصور</li>
+                            <li>ترجمة النصوص المستخرجة</li>
+                            <li>دعم جميع أنواع الصور</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>المحادثة الثنائية</h3>
+                        <p>وضع محادثة تفاعلي للترجمة المباشرة بين شخصين</p>
+                        <ul class="feature-list">
+                            <li>محادثة صوتية ونصية</li>
+                            <li>ترجمة فورية</li>
+                            <li>واجهة تفاعلية</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>الترجمة الذكية</h3>
+                        <p>ترجمة متقدمة بالذكاء الاصطناعي مع فهم السياق</p>
+                        <ul class="feature-list">
+                            <li>فهم السياق والمعنى</li>
+                            <li>ترجمة طبيعية</li>
+                            <li>اقتراحات ذكية</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>المفضلة والتاريخ</h3>
+                        <p>حفظ الترجمات المهمة والوصول السريع إليها</p>
+                        <ul class="feature-list">
+                            <li>حفظ الترجمات المفضلة</li>
+                            <li>تاريخ الترجمات</li>
+                            <li>بحث سريع</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Use -->
+            <section class="how-to-use">
+                <h2>كيفية الاستخدام</h2>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>اختر نوع الترجمة</h3>
+                            <p>ابدأ باختيار نوع الترجمة المناسب: نصية، صوتية، صور، أو محادثة</p>
+                            <div class="step-visual">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>حدد اللغات</h3>
+                            <p>اختر اللغة المصدر واللغة الهدف من أكثر من 100 لغة مدعومة</p>
+                            <div class="step-visual">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>أدخل النص أو تحدث</h3>
+                            <p>اكتب النص أو تحدث مباشرة للحصول على ترجمة فورية</p>
+                            <div class="step-visual">
+                                <i class="fas fa-keyboard"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>احصل على الترجمة</h3>
+                            <p>استمتع بترجمة دقيقة وطبيعية مع إمكانية الاستماع إليها</p>
+                            <div class="step-visual">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Supported Languages -->
+            <section class="supported-languages">
+                <h2>اللغات المدعومة</h2>
+                <p>يدعم التطبيق أكثر من 100 لغة من جميع أنحاء العالم</p>
+                <div class="languages-grid">
+                    <div class="language-category">
+                        <h3>اللغات الرئيسية</h3>
+                        <div class="language-list">
+                            <span class="language-tag">العربية</span>
+                            <span class="language-tag">English</span>
+                            <span class="language-tag">Français</span>
+                            <span class="language-tag">Español</span>
+                            <span class="language-tag">Deutsch</span>
+                            <span class="language-tag">Italiano</span>
+                            <span class="language-tag">Português</span>
+                            <span class="language-tag">Русский</span>
+                            <span class="language-tag">中文</span>
+                            <span class="language-tag">日本語</span>
+                            <span class="language-tag">한국어</span>
+                        </div>
+                    </div>
+                    
+                    <div class="language-category">
+                        <h3>لغات آسيوية</h3>
+                        <div class="language-list">
+                            <span class="language-tag">हिन्दी</span>
+                            <span class="language-tag">বাংলা</span>
+                            <span class="language-tag">தமிழ்</span>
+                            <span class="language-tag">తెలుగు</span>
+                            <span class="language-tag">മലയാളം</span>
+                            <span class="language-tag">ಕನ್ನಡ</span>
+                            <span class="language-tag">ગુજરાતી</span>
+                            <span class="language-tag">ਪੰਜਾਬੀ</span>
+                            <span class="language-tag">ไทย</span>
+                            <span class="language-tag">Tiếng Việt</span>
+                        </div>
+                    </div>
+                    
+                    <div class="language-category">
+                        <h3>لغات أوروبية</h3>
+                        <div class="language-list">
+                            <span class="language-tag">Nederlands</span>
+                            <span class="language-tag">Svenska</span>
+                            <span class="language-tag">Norsk</span>
+                            <span class="language-tag">Dansk</span>
+                            <span class="language-tag">Suomi</span>
+                            <span class="language-tag">Polski</span>
+                            <span class="language-tag">Čeština</span>
+                            <span class="language-tag">Magyar</span>
+                            <span class="language-tag">Română</span>
+                            <span class="language-tag">Ελληνικά</span>
+                        </div>
+                    </div>
+                    
+                    <div class="language-category">
+                        <h3>لغات أخرى</h3>
+                        <div class="language-list">
+                            <span class="language-tag">Türkçe</span>
+                            <span class="language-tag">فارسی</span>
+                            <span class="language-tag">اردو</span>
+                            <span class="language-tag">עברית</span>
+                            <span class="language-tag">Bahasa Indonesia</span>
+                            <span class="language-tag">Bahasa Melayu</span>
+                            <span class="language-tag">Filipino</span>
+                            <span class="language-tag">Kiswahili</span>
+                            <span class="language-tag">Afrikaans</span>
+                            <span class="language-tag">አማርኛ</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tips and Tricks -->
+            <section class="tips-tricks">
+                <h2>نصائح وحيل</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>استخدم الاختصارات</h3>
+                        <p>استخدم Ctrl+Enter للترجمة السريعة و Ctrl+Shift+S لتبديل اللغات</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h3>استمع للترجمات</h3>
+                        <p>اضغط على زر الصوت لسماع النطق الصحيح للترجمة</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>احفظ المهم</h3>
+                        <p>احفظ الترجمات المهمة في المفضلة للوصول السريع إليها</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>ثبت التطبيق</h3>
+                        <p>ثبت التطبيق على جهازك للوصول السريع والميزات الإضافية</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>ترجمة الصور</h3>
+                        <p>اسحب الصور مباشرة إلى التطبيق لترجمة النصوص الموجودة فيها</p>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>الترجمة الذكية</h3>
+                        <p>استخدم الترجمة الذكية للحصول على ترجمات أكثر طبيعية</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="faq">
+                <h2>الأسئلة الشائعة</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>هل التطبيق مجاني؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>نعم، التطبيق مجاني تماماً مع جميع الميزات المتاحة. لا توجد رسوم مخفية أو اشتراكات مطلوبة.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>هل يعمل التطبيق بدون إنترنت؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>التطبيق يتطلب اتصال بالإنترنت للترجمة، لكن يمكنك الوصول للترجمات المحفوظة والواجهة بدون إنترنت.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>ما هي دقة الترجمة؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>نستخدم أحدث تقنيات الذكاء الاصطناعي لضمان أعلى دقة ممكنة في الترجمة، خاصة للغات الرئيسية.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>هل يتم حفظ بياناتي؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>جميع البيانات محفوظة محلياً على جهازك فقط. لا نشارك أو نخزن بياناتك على خوادمنا.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>كيف يمكنني تثبيت التطبيق؟</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>اضغط على زر "تثبيت التطبيق" في المتصفح أو اتبع التعليمات المعروضة في التطبيق.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Get Started -->
+            <section class="get-started">
+                <div class="get-started-content">
+                    <h2>ابدأ رحلتك مع الترجمة الذكية</h2>
+                    <p>انضم إلى ملايين المستخدمين الذين يثقون في مترجم الصوت الذكي لاحتياجاتهم اللغوية</p>
+                    <div class="get-started-actions">
+                        <a href="translate.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-rocket"></i>
+                            ابدأ الترجمة الآن
+                        </a>
+                        <a href="settings.html" class="btn btn-outline btn-large">
+                            <i class="fas fa-cog"></i>
+                            تخصيص الإعدادات
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>مترجم الصوت الذكي</h3>
+                    <p>تطبيق ويب متقدم للترجمة الصوتية والنصية</p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="translate.html">الترجمة</a></li>
+                        <li><a href="dual-conversation.html">المحادثة</a></li>
+                        <li><a href="smart-translate.html">الذكية</a></li>
+                        <li><a href="settings.html">الإعدادات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>الدعم</h4>
+                    <ul>
+                        <li><a href="welcome.html">دليل الاستخدام</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                        <li><a href="#privacy">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 مترجم الصوت الذكي. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="welcome-script.js"></script>
+</body>
+</html>
+

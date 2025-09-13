@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الترجمة - مترجم الصوت الذكي</title>
+    <meta name="description" content="ترجمة صوتية ونصية فورية مع دعم أكثر من 100 لغة">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="translate-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link active">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="translate-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="translate-header">
+                <h1>الترجمة الفورية</h1>
+                <p>ترجم النصوص والأصوات بدقة عالية مع دعم أكثر من 100 لغة</p>
+            </div>
+
+            <!-- Translation Modes -->
+            <div class="translation-modes">
+                <button class="mode-btn active" data-mode="text">
+                    <i class="fas fa-edit"></i>
+                    ترجمة نصية
+                </button>
+                <button class="mode-btn" data-mode="voice">
+                    <i class="fas fa-microphone"></i>
+                    ترجمة صوتية
+                </button>
+                <button class="mode-btn" data-mode="image">
+                    <i class="fas fa-camera"></i>
+                    ترجمة صور
+                </button>
+            </div>
+
+            <!-- Language Selection -->
+            <div class="language-selection">
+                <div class="language-group">
+                    <label for="source-lang">اللغة المصدر</label>
+                    <select id="source-lang" class="language-select">
+                        <option value="auto">كشف تلقائي</option>
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="ru">Русский</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="sv">Svenska</option>
+                        <option value="no">Norsk</option>
+                        <option value="da">Dansk</option>
+                        <option value="fi">Suomi</option>
+                        <option value="pl">Polski</option>
+                        <option value="cs">Čeština</option>
+                        <option value="hu">Magyar</option>
+                        <option value="ro">Română</option>
+                        <option value="bg">Български</option>
+                        <option value="hr">Hrvatski</option>
+                        <option value="sk">Slovenčina</option>
+                        <option value="sl">Slovenščina</option>
+                        <option value="et">Eesti</option>
+                        <option value="lv">Latviešu</option>
+                        <option value="lt">Lietuvių</option>
+                        <option value="el">Ελληνικά</option>
+                        <option value="he">עברית</option>
+                        <option value="fa">فارسی</option>
+                        <option value="ur">اردو</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="ml">മലയാളം</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="pa">ਪੰਜਾਬੀ</option>
+                        <option value="mr">मराठी</option>
+                        <option value="ne">नेपाली</option>
+                        <option value="si">සිංහල</option>
+                        <option value="my">မြန်မာ</option>
+                        <option value="th">ไทย</option>
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="id">Bahasa Indonesia</option>
+                        <option value="ms">Bahasa Melayu</option>
+                        <option value="tl">Filipino</option>
+                        <option value="sw">Kiswahili</option>
+                        <option value="am">አማርኛ</option>
+                        <option value="yo">Yorùbá</option>
+                        <option value="ig">Igbo</option>
+                        <option value="ha">Hausa</option>
+                        <option value="zu">IsiZulu</option>
+                        <option value="af">Afrikaans</option>
+                        <option value="sq">Shqip</option>
+                        <option value="mk">Македонски</option>
+                        <option value="sr">Српски</option>
+                        <option value="bs">Bosanski</option>
+                        <option value="mt">Malti</option>
+                        <option value="is">Íslenska</option>
+                        <option value="ga">Gaeilge</option>
+                        <option value="cy">Cymraeg</option>
+                        <option value="eu">Euskera</option>
+                        <option value="ca">Català</option>
+                        <option value="gl">Galego</option>
+                        <option value="pt-BR">Português (Brasil)</option>
+                        <option value="es-ES">Español (España)</option>
+                        <option value="es-MX">Español (México)</option>
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="en-AU">English (Australia)</option>
+                        <option value="en-CA">English (Canada)</option>
+                        <option value="fr-FR">Français (France)</option>
+                        <option value="fr-CA">Français (Canada)</option>
+                        <option value="de-DE">Deutsch (Deutschland)</option>
+                        <option value="de-AT">Deutsch (Österreich)</option>
+                        <option value="de-CH">Deutsch (Schweiz)</option>
+                        <option value="it-IT">Italiano (Italia)</option>
+                        <option value="it-CH">Italiano (Svizzera)</option>
+                        <option value="nl-NL">Nederlands (Nederland)</option>
+                        <option value="nl-BE">Nederlands (België)</option>
+                        <option value="sv-SE">Svenska (Sverige)</option>
+                        <option value="no-NO">Norsk (Norge)</option>
+                        <option value="da-DK">Dansk (Danmark)</option>
+                        <option value="fi-FI">Suomi (Suomi)</option>
+                        <option value="pl-PL">Polski (Polska)</option>
+                        <option value="cs-CZ">Čeština (Česká republika)</option>
+                        <option value="hu-HU">Magyar (Magyarország)</option>
+                        <option value="ro-RO">Română (România)</option>
+                        <option value="bg-BG">Български (България)</option>
+                        <option value="hr-HR">Hrvatski (Hrvatska)</option>
+                        <option value="sk-SK">Slovenčina (Slovensko)</option>
+                        <option value="sl-SI">Slovenščina (Slovenija)</option>
+                        <option value="et-EE">Eesti (Eesti)</option>
+                        <option value="lv-LV">Latviešu (Latvija)</option>
+                        <option value="lt-LT">Lietuvių (Lietuva)</option>
+                        <option value="el-GR">Ελληνικά (Ελλάδα)</option>
+                        <option value="he-IL">עברית (ישראל)</option>
+                        <option value="fa-IR">فارسی (ایران)</option>
+                        <option value="ur-PK">اردو (پاکستان)</option>
+                        <option value="bn-BD">বাংলা (বাংলাদেশ)</option>
+                        <option value="bn-IN">বাংলা (ভারত)</option>
+                        <option value="ta-IN">தமிழ் (இந்தியா)</option>
+                        <option value="te-IN">తెలుగు (భారతదేశం)</option>
+                        <option value="ml-IN">മലയാളം (ഇന്ത്യ)</option>
+                        <option value="kn-IN">ಕನ್ನಡ (ಭಾರತ)</option>
+                        <option value="gu-IN">ગુજરાતી (ભારત)</option>
+                        <option value="pa-IN">ਪੰਜਾਬੀ (ਭਾਰਤ)</option>
+                        <option value="mr-IN">मराठी (भारत)</option>
+                        <option value="ne-NP">नेपाली (नेपाल)</option>
+                        <option value="si-LK">සිංහල (ශ්‍රී ලංකාව)</option>
+                        <option value="my-MM">မြန်မာ (မြန်မာ)</option>
+                        <option value="th-TH">ไทย (ประเทศไทย)</option>
+                        <option value="vi-VN">Tiếng Việt (Việt Nam)</option>
+                        <option value="id-ID">Bahasa Indonesia (Indonesia)</option>
+                        <option value="ms-MY">Bahasa Melayu (Malaysia)</option>
+                        <option value="tl-PH">Filipino (Pilipinas)</option>
+                        <option value="sw-KE">Kiswahili (Kenya)</option>
+                        <option value="sw-TZ">Kiswahili (Tanzania)</option>
+                        <option value="am-ET">አማርኛ (ኢትዮጵያ)</option>
+                        <option value="yo-NG">Yorùbá (Nigeria)</option>
+                        <option value="ig-NG">Igbo (Nigeria)</option>
+                        <option value="ha-NG">Hausa (Nigeria)</option>
+                        <option value="zu-ZA">IsiZulu (South Africa)</option>
+                        <option value="af-ZA">Afrikaans (South Africa)</option>
+                        <option value="sq-AL">Shqip (Shqipëria)</option>
+                        <option value="mk-MK">Македонски (Македонија)</option>
+                        <option value="sr-RS">Српски (Србија)</option>
+                        <option value="bs-BA">Bosanski (Bosna i Hercegovina)</option>
+                        <option value="mt-MT">Malti (Malta)</option>
+                        <option value="is-IS">Íslenska (Ísland)</option>
+                        <option value="ga-IE">Gaeilge (Éire)</option>
+                        <option value="cy-GB">Cymraeg (Cymru)</option>
+                        <option value="eu-ES">Euskera (Espainia)</option>
+                        <option value="ca-ES">Català (Espanya)</option>
+                        <option value="gl-ES">Galego (España)</option>
+                    </select>
+                </div>
+                
+                <button class="swap-languages" id="swap-languages">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                
+                <div class="language-group">
+                    <label for="target-lang">اللغة الهدف</label>
+                    <select id="target-lang" class="language-select">
+                        <option value="ar">العربية</option>
+                        <option value="en" selected>English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="ru">Русский</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="sv">Svenska</option>
+                        <option value="no">Norsk</option>
+                        <option value="da">Dansk</option>
+                        <option value="fi">Suomi</option>
+                        <option value="pl">Polski</option>
+                        <option value="cs">Čeština</option>
+                        <option value="hu">Magyar</option>
+                        <option value="ro">Română</option>
+                        <option value="bg">Български</option>
+                        <option value="hr">Hrvatski</option>
+                        <option value="sk">Slovenčina</option>
+                        <option value="sl">Slovenščina</option>
+                        <option value="et">Eesti</option>
+                        <option value="lv">Latviešu</option>
+                        <option value="lt">Lietuvių</option>
+                        <option value="el">Ελληνικά</option>
+                        <option value="he">עברית</option>
+                        <option value="fa">فارسی</option>
+                        <option value="ur">اردو</option>
+                        <option value="bn">বাংলা</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="ml">മലയാളം</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="gu">ગુજરાતી</option>
+                        <option value="pa">ਪੰਜਾਬੀ</option>
+                        <option value="mr">मराठी</option>
+                        <option value="ne">नेपाली</option>
+                        <option value="si">සිංහල</option>
+                        <option value="my">မြန်မာ</option>
+                        <option value="th">ไทย</option>
+                        <option value="vi">Tiếng Việt</option>
+                        <option value="id">Bahasa Indonesia</option>
+                        <option value="ms">Bahasa Melayu</option>
+                        <option value="tl">Filipino</option>
+                        <option value="sw">Kiswahili</option>
+                        <option value="am">አማርኛ</option>
+                        <option value="yo">Yorùbá</option>
+                        <option value="ig">Igbo</option>
+                        <option value="ha">Hausa</option>
+                        <option value="zu">IsiZulu</option>
+                        <option value="af">Afrikaans</option>
+                        <option value="sq">Shqip</option>
+                        <option value="mk">Македонски</option>
+                        <option value="sr">Српски</option>
+                        <option value="bs">Bosanski</option>
+                        <option value="mt">Malti</option>
+                        <option value="is">Íslenska</option>
+                        <option value="ga">Gaeilge</option>
+                        <option value="cy">Cymraeg</option>
+                        <option value="eu">Euskera</option>
+                        <option value="ca">Català</option>
+                        <option value="gl">Galego</option>
+                        <option value="pt-BR">Português (Brasil)</option>
+                        <option value="es-ES">Español (España)</option>
+                        <option value="es-MX">Español (México)</option>
+                        <option value="en-US">English (US)</option>
+                        <option value="en-GB">English (UK)</option>
+                        <option value="en-AU">English (Australia)</option>
+                        <option value="en-CA">English (Canada)</option>
+                        <option value="fr-FR">Français (France)</option>
+                        <option value="fr-CA">Français (Canada)</option>
+                        <option value="de-DE">Deutsch (Deutschland)</option>
+                        <option value="de-AT">Deutsch (Österreich)</option>
+                        <option value="de-CH">Deutsch (Schweiz)</option>
+                        <option value="it-IT">Italiano (Italia)</option>
+                        <option value="it-CH">Italiano (Svizzera)</option>
+                        <option value="nl-NL">Nederlands (Nederland)</option>
+                        <option value="nl-BE">Nederlands (België)</option>
+                        <option value="sv-SE">Svenska (Sverige)</option>
+                        <option value="no-NO">Norsk (Norge)</option>
+                        <option value="da-DK">Dansk (Danmark)</option>
+                        <option value="fi-FI">Suomi (Suomi)</option>
+                        <option value="pl-PL">Polski (Polska)</option>
+                        <option value="cs-CZ">Čeština (Česká republika)</option>
+                        <option value="hu-HU">Magyar (Magyarország)</option>
+                        <option value="ro-RO">Română (România)</option>
+                        <option value="bg-BG">Български (България)</option>
+                        <option value="hr-HR">Hrvatski (Hrvatska)</option>
+                        <option value="sk-SK">Slovenčina (Slovensko)</option>
+                        <option value="sl-SI">Slovenščina (Slovenija)</option>
+                        <option value="et-EE">Eesti (Eesti)</option>
+                        <option value="lv-LV">Latviešu (Latvija)</option>
+                        <option value="lt-LT">Lietuvių (Lietuva)</option>
+                        <option value="el-GR">Ελληνικά (Ελλάδα)</option>
+                        <option value="he-IL">עברית (ישראל)</option>
+                        <option value="fa-IR">فارسی (ایران)</option>
+                        <option value="ur-PK">اردو (پاکستان)</option>
+                        <option value="bn-BD">বাংলা (বাংলাদেশ)</option>
+                        <option value="bn-IN">বাংলা (ভারত)</option>
+                        <option value="ta-IN">தமிழ் (இந்தியா)</option>
+                        <option value="te-IN">తెలుగు (భారతదేశం)</option>
+                        <option value="ml-IN">മലയാളം (ഇന്ത്യ)</option>
+                        <option value="kn-IN">ಕನ್ನಡ (ಭಾರತ)</option>
+                        <option value="gu-IN">ગુજરાતી (ભારત)</option>
+                        <option value="pa-IN">ਪੰਜਾਬੀ (ਭਾਰਤ)</option>
+                        <option value="mr-IN">मराठी (भारत)</option>
+                        <option value="ne-NP">नेपाली (नेपाल)</option>
+                        <option value="si-LK">සිංහල (ශ්‍රී ලංකාව)</option>
+                        <option value="my-MM">မြန်မာ (မြန်မာ)</option>
+                        <option value="th-TH">ไทย (ประเทศไทย)</option>
+                        <option value="vi-VN">Tiếng Việt (Việt Nam)</option>
+                        <option value="id-ID">Bahasa Indonesia (Indonesia)</option>
+                        <option value="ms-MY">Bahasa Melayu (Malaysia)</option>
+                        <option value="tl-PH">Filipino (Pilipinas)</option>
+                        <option value="sw-KE">Kiswahili (Kenya)</option>
+                        <option value="sw-TZ">Kiswahili (Tanzania)</option>
+                        <option value="am-ET">አማርኛ (ኢትዮጵያ)</option>
+                        <option value="yo-NG">Yorùbá (Nigeria)</option>
+                        <option value="ig-NG">Igbo (Nigeria)</option>
+                        <option value="ha-NG">Hausa (Nigeria)</option>
+                        <option value="zu-ZA">IsiZulu (South Africa)</option>
+                        <option value="af-ZA">Afrikaans (South Africa)</option>
+                        <option value="sq-AL">Shqip (Shqipëria)</option>
+                        <option value="mk-MK">Македонски (Македонија)</option>
+                        <option value="sr-RS">Српски (Србија)</option>
+                        <option value="bs-BA">Bosanski (Bosna i Hercegovina)</option>
+                        <option value="mt-MT">Malti (Malta)</option>
+                        <option value="is-IS">Íslenska (Ísland)</option>
+                        <option value="ga-IE">Gaeilge (Éire)</option>
+                        <option value="cy-GB">Cymraeg (Cymru)</option>
+                        <option value="eu-ES">Euskera (Espainia)</option>
+                        <option value="ca-ES">Català (Espanya)</option>
+                        <option value="gl-ES">Galego (España)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Translation Interface -->
+            <div class="translation-interface">
+                <!-- Text Translation Mode -->
+                <div class="translation-mode active" id="text-mode">
+                    <div class="translation-panels">
+                        <div class="input-panel">
+                            <div class="panel-header">
+                                <h3>النص المراد ترجمته</h3>
+                                <div class="panel-actions">
+                                    <button class="action-btn" id="clear-input" title="مسح النص">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="action-btn" id="copy-input" title="نسخ النص">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea 
+                                id="input-text" 
+                                class="translation-textarea" 
+                                placeholder="اكتب النص المراد ترجمته هنا..."
+                                rows="8"
+                            ></textarea>
+                            <div class="input-footer">
+                                <span class="char-count" id="input-char-count">0 / 5000</span>
+                                <button class="btn btn-primary" id="translate-text">
+                                    <i class="fas fa-translate"></i>
+                                    ترجم
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-panel">
+                            <div class="panel-header">
+                                <h3>الترجمة</h3>
+                                <div class="panel-actions">
+                                    <button class="action-btn" id="speak-output" title="استمع للترجمة">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <button class="action-btn" id="copy-output" title="نسخ الترجمة">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="action-btn" id="save-translation" title="حفظ في المفضلة">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="translation-output" id="translation-output">
+                                <div class="placeholder">
+                                    <i class="fas fa-language"></i>
+                                    <p>ستظهر الترجمة هنا</p>
+                                </div>
+                            </div>
+                            <div class="output-footer">
+                                <div class="translation-info" id="translation-info"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Translation Mode -->
+                <div class="translation-mode" id="voice-mode">
+                    <div class="voice-interface">
+                        <div class="voice-controls">
+                            <button class="voice-btn" id="start-recording">
+                                <i class="fas fa-microphone"></i>
+                                <span>ابدأ التسجيل</span>
+                            </button>
+                            <div class="recording-status" id="recording-status">
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="voice-transcription">
+                            <div class="transcription-panel">
+                                <h3>النص المسموع</h3>
+                                <div class="transcription-text" id="transcription-text">
+                                    <div class="placeholder">
+                                        <i class="fas fa-microphone-slash"></i>
+                                        <p>اضغط على زر التسجيل وابدأ بالحديث</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="translation-panel">
+                                <h3>الترجمة</h3>
+                                <div class="translation-text" id="voice-translation-output">
+                                    <div class="placeholder">
+                                        <i class="fas fa-language"></i>
+                                        <p>ستظهر الترجمة هنا بعد التسجيل</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Translation Mode -->
+                <div class="translation-mode" id="image-mode">
+                    <div class="image-interface">
+                        <div class="image-upload">
+                            <div class="upload-area" id="upload-area">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h3>اسحب الصورة هنا أو اضغط للاختيار</h3>
+                                    <p>يدعم JPG, PNG, GIF حتى 10MB</p>
+                                    <input type="file" id="image-input" accept="image/*" hidden>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="image-preview" id="image-preview" style="display: none;">
+                            <img id="preview-img" alt="معاينة الصورة">
+                            <div class="image-actions">
+                                <button class="btn btn-primary" id="extract-text">
+                                    <i class="fas fa-eye"></i>
+                                    استخراج النص
+                                </button>
+                                <button class="btn btn-outline" id="change-image">
+                                    <i class="fas fa-edit"></i>
+                                    تغيير الصورة
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="extracted-text" id="extracted-text" style="display: none;">
+                            <h3>النص المستخرج</h3>
+                            <div class="text-content" id="extracted-content"></div>
+                            <button class="btn btn-primary" id="translate-extracted">
+                                <i class="fas fa-translate"></i>
+                                ترجم النص
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Translations -->
+            <div class="recent-translations">
+                <h3>الترجمات الأخيرة</h3>
+                <div class="translations-list" id="recent-translations-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>لا توجد ترجمات حديثة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري الترجمة...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="translate-script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحادثة الثنائية - مترجم الصوت الذكي</title>
+    <meta name="description" content="وضع محادثة تفاعلي للترجمة المباشرة بين شخصين">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="conversation-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link active">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="conversation-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="conversation-header">
+                <h1>المحادثة الثنائية</h1>
+                <p>ترجمة تفاعلية مباشرة بين شخصين بلغات مختلفة</p>
+            </div>
+
+            <!-- Conversation Setup -->
+            <div class="conversation-setup" id="conversation-setup">
+                <div class="setup-card">
+                    <h2>إعداد المحادثة</h2>
+                    <p>اختر اللغات للمشاركين في المحادثة</p>
+                    
+                    <div class="participant-setup">
+                        <div class="participant">
+                            <div class="participant-info">
+                                <div class="participant-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>المشارك الأول</h3>
+                            </div>
+                            <div class="language-selection">
+                                <label for="participant1-lang">اللغة</label>
+                                <select id="participant1-lang" class="language-select">
+                                    <option value="ar" selected>العربية</option>
+                                    <option value="en">English</option>
+                                    <option value="fr">Français</option>
+                                    <option value="es">Español</option>
+                                    <option value="de">Deutsch</option>
+                                    <option value="it">Italiano</option>
+                                    <option value="pt">Português</option>
+                                    <option value="ru">Русский</option>
+                                    <option value="zh">中文</option>
+                                    <option value="ja">日本語</option>
+                                    <option value="ko">한국어</option>
+                                    <option value="hi">हिन्दी</option>
+                                    <option value="tr">Türkçe</option>
+                                    <option value="nl">Nederlands</option>
+                                    <option value="sv">Svenska</option>
+                                    <option value="no">Norsk</option>
+                                    <option value="da">Dansk</option>
+                                    <option value="fi">Suomi</option>
+                                    <option value="pl">Polski</option>
+                                    <option value="cs">Čeština</option>
+                                    <option value="hu">Magyar</option>
+                                    <option value="ro">Română</option>
+                                    <option value="bg">Български</option>
+                                    <option value="hr">Hrvatski</option>
+                                    <option value="sk">Slovenčina</option>
+                                    <option value="sl">Slovenščina</option>
+                                    <option value="et">Eesti</option>
+                                    <option value="lv">Latviešu</option>
+                                    <option value="lt">Lietuvių</option>
+                                    <option value="el">Ελληνικά</option>
+                                    <option value="he">עברית</option>
+                                    <option value="fa">فارسی</option>
+                                    <option value="ur">اردو</option>
+                                    <option value="bn">বাংলা</option>
+                                    <option value="ta">தமிழ்</option>
+                                    <option value="te">తెలుగు</option>
+                                    <option value="ml">മലയാളം</option>
+                                    <option value="kn">ಕನ್ನಡ</option>
+                                    <option value="gu">ગુજરાતી</option>
+                                    <option value="pa">ਪੰਜਾਬੀ</option>
+                                    <option value="mr">मराठी</option>
+                                    <option value="ne">नेपाली</option>
+                                    <option value="si">සිංහල</option>
+                                    <option value="my">မြန်မာ</option>
+                                    <option value="th">ไทย</option>
+                                    <option value="vi">Tiếng Việt</option>
+                                    <option value="id">Bahasa Indonesia</option>
+                                    <option value="ms">Bahasa Melayu</option>
+                                    <option value="tl">Filipino</option>
+                                    <option value="sw">Kiswahili</option>
+                                    <option value="am">አማርኛ</option>
+                                    <option value="yo">Yorùbá</option>
+                                    <option value="ig">Igbo</option>
+                                    <option value="ha">Hausa</option>
+                                    <option value="zu">IsiZulu</option>
+                                    <option value="af">Afrikaans</option>
+                                    <option value="sq">Shqip</option>
+                                    <option value="mk">Македонски</option>
+                                    <option value="sr">Српски</option>
+                                    <option value="bs">Bosanski</option>
+                                    <option value="mt">Malti</option>
+                                    <option value="is">Íslenska</option>
+                                    <option value="ga">Gaeilge</option>
+                                    <option value="cy">Cymraeg</option>
+                                    <option value="eu">Euskera</option>
+                                    <option value="ca">Català</option>
+                                    <option value="gl">Galego</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="vs-divider">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        
+                        <div class="participant">
+                            <div class="participant-info">
+                                <div class="participant-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>المشارك الثاني</h3>
+                            </div>
+                            <div class="language-selection">
+                                <label for="participant2-lang">اللغة</label>
+                                <select id="participant2-lang" class="language-select">
+                                    <option value="ar">العربية</option>
+                                    <option value="en" selected>English</option>
+                                    <option value="fr">Français</option>
+                                    <option value="es">Español</option>
+                                    <option value="de">Deutsch</option>
+                                    <option value="it">Italiano</option>
+                                    <option value="pt">Português</option>
+                                    <option value="ru">Русский</option>
+                                    <option value="zh">中文</option>
+                                    <option value="ja">日本語</option>
+                                    <option value="ko">한국어</option>
+                                    <option value="hi">हिन्दी</option>
+                                    <option value="tr">Türkçe</option>
+                                    <option value="nl">Nederlands</option>
+                                    <option value="sv">Svenska</option>
+                                    <option value="no">Norsk</option>
+                                    <option value="da">Dansk</option>
+                                    <option value="fi">Suomi</option>
+                                    <option value="pl">Polski</option>
+                                    <option value="cs">Čeština</option>
+                                    <option value="hu">Magyar</option>
+                                    <option value="ro">Română</option>
+                                    <option value="bg">Български</option>
+                                    <option value="hr">Hrvatski</option>
+                                    <option value="sk">Slovenčina</option>
+                                    <option value="sl">Slovenščina</option>
+                                    <option value="et">Eesti</option>
+                                    <option value="lv">Latviešu</option>
+                                    <option value="lt">Lietuvių</option>
+                                    <option value="el">Ελληνικά</option>
+                                    <option value="he">עברית</option>
+                                    <option value="fa">فارسی</option>
+                                    <option value="ur">اردو</option>
+                                    <option value="bn">বাংলা</option>
+                                    <option value="ta">தமிழ்</option>
+                                    <option value="te">తెలుగు</option>
+                                    <option value="ml">മലയാളം</option>
+                                    <option value="kn">ಕನ್ನಡ</option>
+                                    <option value="gu">ગુજરાતી</option>
+                                    <option value="pa">ਪੰਜਾਬੀ</option>
+                                    <option value="mr">मराठी</option>
+                                    <option value="ne">नेपाली</option>
+                                    <option value="si">සිංහල</option>
+                                    <option value="my">မြန်မာ</option>
+                                    <option value="th">ไทย</option>
+                                    <option value="vi">Tiếng Việt</option>
+                                    <option value="id">Bahasa Indonesia</option>
+                                    <option value="ms">Bahasa Melayu</option>
+                                    <option value="tl">Filipino</option>
+                                    <option value="sw">Kiswahili</option>
+                                    <option value="am">አማርኛ</option>
+                                    <option value="yo">Yorùbá</option>
+                                    <option value="ig">Igbo</option>
+                                    <option value="ha">Hausa</option>
+                                    <option value="zu">IsiZulu</option>
+                                    <option value="af">Afrikaans</option>
+                                    <option value="sq">Shqip</option>
+                                    <option value="mk">Македонски</option>
+                                    <option value="sr">Српски</option>
+                                    <option value="bs">Bosanski</option>
+                                    <option value="mt">Malti</option>
+                                    <option value="is">Íslenska</option>
+                                    <option value="ga">Gaeilge</option>
+                                    <option value="cy">Cymraeg</option>
+                                    <option value="eu">Euskera</option>
+                                    <option value="ca">Català</option>
+                                    <option value="gl">Galego</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-actions">
+                        <button class="btn btn-primary btn-large" id="start-conversation">
+                            <i class="fas fa-play"></i>
+                            بدء المحادثة
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation Interface -->
+            <div class="conversation-interface" id="conversation-interface" style="display: none;">
+                <!-- Conversation Header -->
+                <div class="conversation-header-bar">
+                    <div class="conversation-info">
+                        <h2 id="conversation-title">المحادثة الجارية</h2>
+                        <div class="language-indicators">
+                            <span class="language-indicator" id="lang1-indicator">
+                                <i class="fas fa-user"></i>
+                                <span id="lang1-name">العربية</span>
+                            </span>
+                            <i class="fas fa-exchange-alt"></i>
+                            <span class="language-indicator" id="lang2-indicator">
+                                <i class="fas fa-user"></i>
+                                <span id="lang2-name">English</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="conversation-controls">
+                        <button class="btn btn-outline" id="pause-conversation">
+                            <i class="fas fa-pause"></i>
+                            إيقاف مؤقت
+                        </button>
+                        <button class="btn btn-outline" id="end-conversation">
+                            <i class="fas fa-stop"></i>
+                            إنهاء المحادثة
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Conversation Modes -->
+                <div class="conversation-modes">
+                    <button class="mode-btn active" data-mode="voice">
+                        <i class="fas fa-microphone"></i>
+                        محادثة صوتية
+                    </button>
+                    <button class="mode-btn" data-mode="text">
+                        <i class="fas fa-keyboard"></i>
+                        محادثة نصية
+                    </button>
+                    <button class="mode-btn" data-mode="mixed">
+                        <i class="fas fa-comments"></i>
+                        مختلط
+                    </button>
+                </div>
+
+                <!-- Voice Conversation Mode -->
+                <div class="conversation-mode active" id="voice-mode">
+                    <div class="voice-conversation">
+                        <div class="participant-interface participant1">
+                            <div class="participant-header">
+                                <div class="participant-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 id="participant1-name">المشارك الأول</h3>
+                                <span class="language-badge" id="participant1-lang-badge">العربية</span>
+                            </div>
+                            
+                            <div class="voice-controls">
+                                <button class="voice-btn" id="participant1-voice-btn">
+                                    <i class="fas fa-microphone"></i>
+                                    <span>تحدث</span>
+                                </button>
+                                <div class="recording-indicator" id="participant1-indicator">
+                                    <div class="pulse-ring"></div>
+                                    <div class="pulse-ring"></div>
+                                    <div class="pulse-ring"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="transcription-area">
+                                <div class="transcription-text" id="participant1-transcription">
+                                    <div class="placeholder">
+                                        <i class="fas fa-microphone-slash"></i>
+                                        <p>اضغط على زر التحدث وابدأ بالحديث</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="conversation-divider">
+                            <div class="divider-line"></div>
+                            <div class="divider-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="divider-line"></div>
+                        </div>
+                        
+                        <div class="participant-interface participant2">
+                            <div class="participant-header">
+                                <div class="participant-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 id="participant2-name">المشارك الثاني</h3>
+                                <span class="language-badge" id="participant2-lang-badge">English</span>
+                            </div>
+                            
+                            <div class="voice-controls">
+                                <button class="voice-btn" id="participant2-voice-btn">
+                                    <i class="fas fa-microphone"></i>
+                                    <span>Speak</span>
+                                </button>
+                                <div class="recording-indicator" id="participant2-indicator">
+                                    <div class="pulse-ring"></div>
+                                    <div class="pulse-ring"></div>
+                                    <div class="pulse-ring"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="transcription-area">
+                                <div class="transcription-text" id="participant2-transcription">
+                                    <div class="placeholder">
+                                        <i class="fas fa-microphone-slash"></i>
+                                        <p>Press the speak button and start talking</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Conversation Mode -->
+                <div class="conversation-mode" id="text-mode">
+                    <div class="text-conversation">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="welcome-message">
+                                    <i class="fas fa-comments"></i>
+                                    <p>ابدأ المحادثة النصية</p>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-area">
+                                <div class="input-mode-selector">
+                                    <button class="input-mode-btn active" data-participant="1">
+                                        <i class="fas fa-user"></i>
+                                        <span id="input-mode-participant1">المشارك الأول</span>
+                                    </button>
+                                    <button class="input-mode-btn" data-participant="2">
+                                        <i class="fas fa-user"></i>
+                                        <span id="input-mode-participant2">المشارك الثاني</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="chat-input-container">
+                                    <textarea 
+                                        id="chat-input" 
+                                        class="chat-input" 
+                                        placeholder="اكتب رسالتك هنا..."
+                                        rows="3"
+                                    ></textarea>
+                                    <button class="btn btn-primary" id="send-message">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mixed Conversation Mode -->
+                <div class="conversation-mode" id="mixed-mode">
+                    <div class="mixed-conversation">
+                        <div class="conversation-timeline" id="conversation-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <i class="fas fa-info-circle"></i>
+                                    <p>يمكنك استخدام الصوت والنص معاً في هذا الوضع</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mixed-controls">
+                            <div class="voice-controls-mixed">
+                                <button class="voice-btn-mixed" id="mixed-voice-btn">
+                                    <i class="fas fa-microphone"></i>
+                                    <span>تسجيل صوتي</span>
+                                </button>
+                            </div>
+                            
+                            <div class="text-controls-mixed">
+                                <textarea 
+                                    id="mixed-text-input" 
+                                    class="mixed-text-input" 
+                                    placeholder="أو اكتب رسالة..."
+                                    rows="2"
+                                ></textarea>
+                                <button class="btn btn-primary" id="send-mixed-message">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation History -->
+            <div class="conversation-history" id="conversation-history" style="display: none;">
+                <h3>تاريخ المحادثات</h3>
+                <div class="history-list" id="history-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>لا توجد محادثات سابقة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري إعداد المحادثة...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="conversation-script.js"></script>
+</body>
+</html>
+

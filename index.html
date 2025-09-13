@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مترجم الصوت الذكي - Voice Translator</title>
+    <meta name="description" content="تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    مترجم الصوت الذكي
+                    <span class="gradient-text">Voice Translator</span>
+                </h1>
+                <p class="hero-description">
+                    تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة مع ميزات ذكية متطورة
+                </p>
+                <div class="hero-buttons">
+                    <a href="translate.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-play"></i>
+                        ابدأ الترجمة
+                    </a>
+                    <a href="welcome.html" class="btn btn-outline btn-large">
+                        <i class="fas fa-info-circle"></i>
+                        تعرف على المزيد
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="card floating-card-1">
+                        <i class="fas fa-microphone"></i>
+                        <span>ترجمة صوتية</span>
+                    </div>
+                    <div class="card floating-card-2">
+                        <i class="fas fa-language"></i>
+                        <span>100+ لغة</span>
+                    </div>
+                    <div class="card floating-card-3">
+                        <i class="fas fa-brain"></i>
+                        <span>ذكاء اصطناعي</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">الميزات الرئيسية</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>الترجمة الصوتية</h3>
+                    <p>ترجمة فورية للكلام مع دقة عالية في التعرف على الأصوات</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>الترجمة النصية</h3>
+                    <p>ترجمة النصوص بدقة عالية مع الحفاظ على المعنى والسياق</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>ترجمة الصور</h3>
+                    <p>استخراج وترجمة النصوص من الصور باستخدام تقنية OCR</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>المحادثة الثنائية</h3>
+                    <p>وضع محادثة تفاعلي للترجمة المباشرة بين شخصين</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>الترجمة الذكية</h3>
+                    <p>ترجمة متقدمة بالذكاء الاصطناعي مع فهم السياق</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>المفضلة</h3>
+                    <p>حفظ الترجمات المهمة للوصول السريع إليها لاحقاً</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <h3>النطق الصوتي</h3>
+                    <p>استماع للترجمات بأصوات طبيعية وواضحة</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>تطبيق ويب تقدمي</h3>
+                    <p>يعمل كتطبيق أصلي على جميع الأجهزة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <h2 class="section-title">ابدأ الآن</h2>
+            <div class="actions-grid">
+                <a href="translate.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>ترجمة صوتية</h3>
+                    <p>تحدث وترجم فوراً</p>
+                </a>
+                <a href="translate.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>ترجمة نصية</h3>
+                    <p>اكتب وترجم</p>
+                </a>
+                <a href="dual-conversation.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>محادثة ثنائية</h3>
+                    <p>ترجمة تفاعلية</p>
+                </a>
+                <a href="smart-translate.html" class="action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ترجمة ذكية</h3>
+                    <p>ذكاء اصطناعي متقدم</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>مترجم الصوت الذكي</h3>
+                    <p>تطبيق ويب متقدم للترجمة الصوتية والنصية</p>
+                </div>
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="translate.html">الترجمة</a></li>
+                        <li><a href="dual-conversation.html">المحادثة</a></li>
+                        <li><a href="smart-translate.html">الذكية</a></li>
+                        <li><a href="settings.html">الإعدادات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>الدعم</h4>
+                    <ul>
+                        <li><a href="welcome.html">دليل الاستخدام</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                        <li><a href="#privacy">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 مترجم الصوت الذكي. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
+
