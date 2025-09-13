@@ -720,3 +720,118 @@
     }
 }
 
+/* Image Translation Result */
+.image-translation-result {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    margin-top: var(--spacing-6);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+}
+
+.image-translation-result h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: var(--spacing-4);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.image-translation-result h3::before {
+    content: "🌐";
+    font-size: var(--font-size-lg);
+}
+
+.translation-content {
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+    min-height: 100px;
+    border: 1px solid var(--gray-200);
+}
+
+.translation-content .placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    color: var(--gray-500);
+    text-align: center;
+}
+
+.translation-content .placeholder i {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-2);
+    opacity: 0.5;
+}
+
+.translation-content .placeholder p {
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.translation-result {
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--gray-800);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.translation-actions {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.translation-actions .btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.translation-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.translation-actions .btn i {
+    font-size: var(--font-size-sm);
+}
+
+/* Responsive Design for Image Translation */
+@media (max-width: 768px) {
+    .image-translation-result {
+        padding: var(--spacing-4);
+        margin-top: var(--spacing-4);
+    }
+    
+    .image-translation-result h3 {
+        font-size: var(--font-size-lg);
+    }
+    
+    .translation-content {
+        padding: var(--spacing-3);
+        min-height: 80px;
+    }
+    
+    .translation-actions {
+        gap: var(--spacing-2);
+    }
+    
+    .translation-actions .btn {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-xs);
+    }
+}
+

@@ -256,6 +256,65 @@ class VoiceTranslator {
                 this.translateExtractedText();
             });
         }
+
+        // Image translation actions
+        const copyImageTranslationBtn = document.getElementById('copy-image-translation');
+        const speakImageTranslationBtn = document.getElementById('speak-image-translation');
+        const saveImageTranslationBtn = document.getElementById('save-image-translation');
+
+        if (copyImageTranslationBtn) {
+            copyImageTranslationBtn.addEventListener('click', () => {
+                const imageTranslationOutput = document.getElementById('image-translation-output');
+                if (imageTranslationOutput && imageTranslationOutput.textContent.trim()) {
+                    this.copyToClipboard(imageTranslationOutput.textContent);
+                    this.showMessage('تم نسخ الترجمة', 'success');
+                }
+            });
+        }
+
+        if (speakImageTranslationBtn) {
+            speakImageTranslationBtn.addEventListener('click', () => {
+                const imageTranslationOutput = document.getElementById('image-translation-output');
+                const targetLang = document.getElementById('target-lang');
+                
+                if (imageTranslationOutput && imageTranslationOutput.textContent.trim()) {
+                    const text = imageTranslationOutput.textContent.trim();
+                    const lang = targetLang?.value || 'en';
+                    
+                    this.synthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = this.getSpeechLangCode(lang);
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    this.synthesis.speak(utterance);
+                }
+            });
+        }
+
+        if (saveImageTranslationBtn) {
+            saveImageTranslationBtn.addEventListener('click', () => {
+                const extractedContent = document.getElementById('extracted-content');
+                const imageTranslationOutput = document.getElementById('image-translation-output');
+                
+                if (extractedContent && imageTranslationOutput && 
+                    extractedContent.textContent.trim() && imageTranslationOutput.textContent.trim()) {
+                    
+                    const favorite = {
+                        id: Date.now(),
+                        source: extractedContent.textContent.trim(),
+                        translation: imageTranslationOutput.textContent.trim(),
+                        sourceLang: sourceLang?.value || 'auto',
+                        targetLang: targetLang?.value || 'en',
+                        timestamp: new Date().toISOString()
+                    };
+
+                    this.favorites.unshift(favorite);
+                    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+                    this.showMessage('تم حفظ الترجمة في المفضلة', 'success');
+                }
+            });
+        }
     }
 
     setupUtilityFunctions() {
@@ -547,6 +606,9 @@ class VoiceTranslator {
                 extractedText.style.display = 'block';
             }
             
+            // Show success message
+            this.showMessage('تم استخراج النص من الصورة بنجاح', 'success');
+            
         } catch (error) {
             console.error('OCR error:', error);
             this.showMessage('حدث خطأ في استخراج النص من الصورة', 'error');
@@ -598,15 +660,25 @@ class VoiceTranslator {
         try {
             const translation = await this.callTranslationAPI(text, source, target);
             
-            // Display translation in the main translation output
+            // Display translation in the image translation output
+            const imageTranslationOutput = document.getElementById('image-translation-output');
+            const imageTranslationResult = document.getElementById('image-translation-result');
+            
+            if (imageTranslationOutput && imageTranslationResult) {
+                imageTranslationOutput.innerHTML = `
+                    <div class="translation-result">
+                        ${translation}
+                    </div>
+                `;
+                imageTranslationResult.style.display = 'block';
+            }
+            
+            // Also display in the main translation output if available
             this.displayTranslation(translation, text, source, target);
             this.addToRecentTranslations(text, translation, source, target);
             
-            // Switch to text mode to show the result
-            const textModeBtn = document.querySelector('[data-mode="text"]');
-            if (textModeBtn) {
-                textModeBtn.click();
-            }
+            // Show success message
+            this.showMessage('تمت ترجمة النص المستخرج بنجاح', 'success');
             
         } catch (error) {
             console.error('Translation error:', error);
@@ -1031,6 +1103,8 @@ class VoiceTranslator {
             const previewImg = document.getElementById('preview-img');
             const imagePreview = document.getElementById('image-preview');
             const uploadArea = document.getElementById('upload-area');
+            const extractedText = document.getElementById('extracted-text');
+            const imageTranslationResult = document.getElementById('image-translation-result');
             
             if (previewImg) {
                 previewImg.src = e.target.result;
@@ -1042,6 +1116,15 @@ class VoiceTranslator {
             
             if (uploadArea) {
                 uploadArea.style.display = 'none';
+            }
+            
+            // Hide previous results when uploading new image
+            if (extractedText) {
+                extractedText.style.display = 'none';
+            }
+            
+            if (imageTranslationResult) {
+                imageTranslationResult.style.display = 'none';
             }
         };
         
