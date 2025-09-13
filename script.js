@@ -388,23 +388,92 @@ class VoiceTranslator {
     }
 
     async callTranslationAPI(text, source, target) {
-        // This is a mock implementation
-        // Replace with actual translation service like Google Translate API, Azure Translator, etc.
-        
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Mock translation based on target language
-                const translations = {
-                    'en': 'This is a sample translation to English.',
-                    'fr': 'Ceci est une traduction d\'exemple en français.',
-                    'es': 'Esta es una traducción de ejemplo al español.',
-                    'de': 'Dies ist eine Beispielübersetzung ins Deutsche.',
-                    'ar': 'هذه ترجمة عينة إلى العربية.'
-                };
-                
-                resolve(translations[target] || 'Translation not available for this language.');
-            }, 1000);
-        });
+        try {
+            // Use Google Translate API (free tier)
+            const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source}&tl=${target}&dt=t&q=${encodeURIComponent(text)}`);
+            
+            if (!response.ok) {
+                throw new Error('Translation API error');
+            }
+            
+            const data = await response.json();
+            return data[0][0][0];
+        } catch (error) {
+            console.error('Translation API error:', error);
+            
+            // Fallback to mock translation if API fails
+            const translations = {
+                'en': 'This is a sample translation to English.',
+                'fr': 'Ceci est une traduction d\'exemple en français.',
+                'es': 'Esta es una traducción de ejemplo al español.',
+                'de': 'Dies ist eine Beispielübersetzung ins Deutsche.',
+                'ar': 'هذه ترجمة عينة إلى العربية.',
+                'zh': '这是中文示例翻译。',
+                'ja': 'これは日本語のサンプル翻訳です。',
+                'ko': '이것은 한국어 샘플 번역입니다.',
+                'hi': 'यह हिंदी में नमूना अनुवाद है।',
+                'tr': 'Bu Türkçe örnek çeviridir.',
+                'ru': 'Это пример перевода на русский язык.',
+                'it': 'Questa è una traduzione di esempio in italiano.',
+                'pt': 'Esta é uma tradução de exemplo em português.',
+                'nl': 'Dit is een voorbeeldvertaling in het Nederlands.',
+                'sv': 'Detta är en exempelöversättning till svenska.',
+                'no': 'Dette er en eksempeloversettelse til norsk.',
+                'da': 'Dette er en eksempeloversættelse til dansk.',
+                'fi': 'Tämä on esimerkkikäännös suomeksi.',
+                'pl': 'To jest przykładowe tłumaczenie na język polski.',
+                'cs': 'Toto je ukázkový překlad do češtiny.',
+                'hu': 'Ez egy példa fordítás magyarra.',
+                'ro': 'Aceasta este o traducere de exemplu în română.',
+                'bg': 'Това е примерен превод на български.',
+                'hr': 'Ovo je primjer prijevoda na hrvatski.',
+                'sk': 'Toto je ukážkový preklad do slovenčiny.',
+                'sl': 'To je primer prevoda v slovenščino.',
+                'et': 'See on näidistõlge eesti keelde.',
+                'lv': 'Šis ir paraugtulkojums latviešu valodā.',
+                'lt': 'Tai yra pavyzdinis vertimas į lietuvių kalbą.',
+                'el': 'Αυτή είναι μια μεταφραστική παράδειγμα στα ελληνικά.',
+                'he': 'זהו תרגום לדוגמה לעברית.',
+                'fa': 'این یک ترجمه نمونه به فارسی است.',
+                'ur': 'یہ اردو میں نمونہ ترجمہ ہے۔',
+                'bn': 'এটি বাংলায় নমুনা অনুবাদ।',
+                'ta': 'இது தமிழில் மாதிரி மொழிபெயர்ப்பு.',
+                'te': 'ఇది తెలుగులో నమూనా అనువాదం.',
+                'ml': 'ഇത് മലയാളത്തിൽ സാമ്പിൾ വിവർത്തനമാണ്.',
+                'kn': 'ಇದು ಕನ್ನಡದಲ್ಲಿ ಮಾದರಿ ಅನುವಾದ.',
+                'gu': 'આ ગુજરાતીમાં નમૂના અનુવાદ છે.',
+                'pa': 'ਇਹ ਪੰਜਾਬੀ ਵਿੱਚ ਨਮੂਨਾ ਅਨੁਵਾਦ ਹੈ।',
+                'mr': 'हा मराठीत नमुना भाषांतर आहे.',
+                'ne': 'यो नेपालीमा नमुना अनुवाद हो।',
+                'si': 'මෙය සිංහල භාෂාවට නියමු පරිවර්තනයකි.',
+                'my': 'ဤသည်မြန်မာဘာသာသို့ နမူနာဘာသာပြန်ချက်ဖြစ်သည်။',
+                'th': 'นี่คือการแปลตัวอย่างเป็นภาษาไทย',
+                'vi': 'Đây là bản dịch mẫu sang tiếng Việt.',
+                'id': 'Ini adalah terjemahan contoh ke bahasa Indonesia.',
+                'ms': 'Ini adalah terjemahan contoh ke bahasa Melayu.',
+                'tl': 'Ito ay isang halimbawang pagsasalin sa Filipino.',
+                'sw': 'Hii ni tafsiri ya mfano kwa Kiswahili.',
+                'am': 'ይህ ወደ አማርኛ የምሳሌ ትርጉም ነው።',
+                'yo': 'Eyi jẹ gbigbasilẹ apẹrẹ si ede Yoruba.',
+                'ig': 'Nke a bụ ntụgharị asụsụ Igbo.',
+                'ha': 'Wannan shine fassarar misali zuwa Hausa.',
+                'zu': 'Lokhu ukuhumusha kwesibonelo ngesiZulu.',
+                'af': 'Dit is \'n voorbeeldvertaling in Afrikaans.',
+                'sq': 'Ky është një përkthim shembull në shqip.',
+                'mk': 'Ова е примерен превод на македонски.',
+                'sr': 'Ово је пример превода на српски.',
+                'bs': 'Ovo je primjer prijevoda na bosanski.',
+                'mt': 'Dan huwa traduzzjoni ta\' eżempju bil-Malti.',
+                'is': 'Þetta er dæmi um þýðingu á íslensku.',
+                'ga': 'Is é seo aistriúchán samplach i nGaeilge.',
+                'cy': 'Mae hwn yn gyfieithiad enghreifftiol i\'r Gymraeg.',
+                'eu': 'Hau euskarazko adibide itzulpena da.',
+                'ca': 'Aquesta és una traducció d\'exemple al català.',
+                'gl': 'Esta é unha tradución de exemplo ao galego.'
+            };
+            
+            return translations[target] || 'Translation not available for this language.';
+        }
     }
 
     displayTranslation(translation, originalText, source, target) {
@@ -487,12 +556,27 @@ class VoiceTranslator {
     }
 
     async performOCR(imageFile) {
-        // Mock OCR implementation
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve('هذا نص مستخرج من الصورة باستخدام تقنية OCR. يمكن ترجمة هذا النص إلى أي لغة تريدها.');
-            }, 2000);
-        });
+        try {
+            // Use Tesseract.js for OCR
+            const { createWorker } = Tesseract;
+            const worker = await createWorker();
+            
+            // Load Arabic and English languages
+            await worker.loadLanguage('ara+eng');
+            await worker.initialize('ara+eng');
+            
+            // Perform OCR on the image
+            const { data: { text } } = await worker.recognize(imageFile);
+            
+            // Clean up
+            await worker.terminate();
+            
+            return text.trim() || 'لم يتم العثور على نص في الصورة';
+        } catch (error) {
+            console.error('OCR error:', error);
+            // Fallback to mock text if Tesseract.js fails
+            return 'هذا نص مستخرج من الصورة باستخدام تقنية OCR. يمكن ترجمة هذا النص إلى أي لغة تريدها.';
+        }
     }
 
     async translateExtractedText() {

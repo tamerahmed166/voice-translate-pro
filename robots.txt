@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://your-username.github.io/voice-translator-pro/sitemap.xml
+
+# Disallow crawling of certain files
+Disallow: /assets/
+Disallow: /*.js
+Disallow: /*.css
+Disallow: /config.js
+Disallow: /sw.js
+Disallow: /manifest.json

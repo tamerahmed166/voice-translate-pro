@@ -1,0 +1,35 @@
+{
+  "name": "voice-translator-pro",
+  "version": "1.0.0",
+  "description": "تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Building for production...'",
+    "deploy": "echo 'Deploying to GitHub Pages...'"
+  },
+  "keywords": [
+    "translation",
+    "voice",
+    "speech",
+    "ocr",
+    "pwa",
+    "arabic",
+    "multilingual"
+  ],
+  "author": "Voice Translator Team",
+  "license": "MIT",
+  "dependencies": {
+    "tesseract.js": "^4.1.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/voice-translator-pro.git"
+  },
+  "homepage": "https://your-username.github.io/voice-translator-pro/",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
