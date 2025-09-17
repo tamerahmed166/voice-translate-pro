@@ -19,9 +19,9 @@ class ConversationManager {
             // Wait for app config to be ready
             await this.waitForAppConfig();
             
-            this.setupEventListeners();
+        this.setupEventListeners();
             this.setupUI();
-            this.loadConversationHistory();
+        this.loadConversationHistory();
             
             this.isInitialized = true;
             console.log('Conversation manager initialized successfully');
@@ -222,13 +222,13 @@ class ConversationManager {
     // Conversation Management
     async startConversation() {
         try {
-            const participant1Lang = document.getElementById('participant1-lang')?.value;
-            const participant2Lang = document.getElementById('participant2-lang')?.value;
+        const participant1Lang = document.getElementById('participant1-lang')?.value;
+        const participant2Lang = document.getElementById('participant2-lang')?.value;
 
-            if (!participant1Lang || !participant2Lang) {
-                this.showMessage('يرجى اختيار لغات للمشاركين', 'error');
-                return;
-            }
+        if (!participant1Lang || !participant2Lang) {
+            this.showMessage('يرجى اختيار لغات للمشاركين', 'error');
+            return;
+        }
 
             if (participant1Lang === participant2Lang) {
                 this.showMessage('يجب اختيار لغات مختلفة للمشاركين', 'error');
@@ -259,7 +259,7 @@ class ConversationManager {
 
     async togglePause() {
         try {
-            const pauseBtn = document.getElementById('pause-conversation');
+        const pauseBtn = document.getElementById('pause-conversation');
             const isPaused = pauseBtn?.classList.contains('paused');
             
             if (isPaused) {
@@ -308,22 +308,22 @@ class ConversationManager {
     // Text Conversation
     async sendTextMessage() {
         try {
-            const input = document.getElementById('chat-input');
-            const activeMode = document.querySelector('.input-mode-btn.active');
-            
-            if (!input || !input.value.trim() || !activeMode) {
-                return;
-            }
+        const input = document.getElementById('chat-input');
+        const activeMode = document.querySelector('.input-mode-btn.active');
+        
+        if (!input || !input.value.trim() || !activeMode) {
+            return;
+        }
 
-            const text = input.value.trim();
+        const text = input.value.trim();
             const participantId = activeMode.dataset.participant === '1' ? 'participant1' : 'participant2';
             
             // Process text input using the service
             await this.conversationService.processTextInput(text, participantId);
-            
-            // Clear input
-            input.value = '';
-            
+        
+        // Clear input
+        input.value = '';
+
         } catch (error) {
             console.error('Error sending text message:', error);
             this.showMessage('خطأ في إرسال الرسالة: ' + error.message, 'error');
@@ -333,19 +333,19 @@ class ConversationManager {
     // Mixed Conversation
     async sendMixedMessage() {
         try {
-            const textInput = document.getElementById('mixed-text-input');
-            
-            if (!textInput || !textInput.value.trim()) {
-                return;
-            }
+        const textInput = document.getElementById('mixed-text-input');
+        
+        if (!textInput || !textInput.value.trim()) {
+            return;
+        }
 
-            const text = textInput.value.trim();
-            
+        const text = textInput.value.trim();
+        
             // Process mixed message using the service
             await this.conversationService.processTextInput(text, 'participant1');
-            
-            // Clear input
-            textInput.value = '';
+        
+        // Clear input
+        textInput.value = '';
             
         } catch (error) {
             console.error('Error sending mixed message:', error);
@@ -355,12 +355,12 @@ class ConversationManager {
 
     async toggleMixedRecording() {
         try {
-            const voiceBtn = document.getElementById('mixed-voice-btn');
+        const voiceBtn = document.getElementById('mixed-voice-btn');
             const isRecording = voiceBtn?.classList.contains('recording');
-            
+        
             if (isRecording) {
                 await this.stopMixedRecording();
-            } else {
+        } else {
                 await this.startMixedRecording();
             }
         } catch (error) {
@@ -370,23 +370,23 @@ class ConversationManager {
     }
 
     async startMixedRecording() {
-        const voiceBtn = document.getElementById('mixed-voice-btn');
+            const voiceBtn = document.getElementById('mixed-voice-btn');
         if (voiceBtn) {
             voiceBtn.classList.add('recording');
             voiceBtn.innerHTML = '<i class="fas fa-stop"></i><span>إيقاف التسجيل</span>';
-        }
-        
-        // Start recording for participant 1
-        await this.startParticipantRecording('participant1');
     }
 
+        // Start recording for participant 1
+        await this.startParticipantRecording('participant1');
+        }
+        
     async stopMixedRecording() {
         const voiceBtn = document.getElementById('mixed-voice-btn');
         if (voiceBtn) {
-            voiceBtn.classList.remove('recording');
-            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i><span>تسجيل صوتي</span>';
-        }
-        
+        voiceBtn.classList.remove('recording');
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i><span>تسجيل صوتي</span>';
+    }
+
         // Stop recording for participant 1
         await this.stopParticipantRecording('participant1');
     }
@@ -544,8 +544,8 @@ class ConversationManager {
         // Auto remove after 5 seconds
         setTimeout(() => {
             messageEl.style.animation = 'slideOutRight 0.3s ease-out';
-            setTimeout(() => {
-                messageEl.remove();
+        setTimeout(() => {
+            messageEl.remove();
             }, 300);
         }, 5000);
     }

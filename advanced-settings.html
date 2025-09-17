@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإعدادات المتقدمة - مترجم الصوت الذكي</title>
+    <meta name="description" content="إعدادات متقدمة لتخصيص تجربة مترجم الصوت الذكي">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="advanced-settings-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة الثنائية
+                </a>
+                <a href="group-conversation.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    المحادثة الجماعية
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+                <a href="advanced-settings.html" class="nav-link active">
+                    <i class="fas fa-sliders-h"></i>
+                    الإعدادات المتقدمة
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="advanced-settings-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="settings-header">
+                <h1>الإعدادات المتقدمة</h1>
+                <p>تخصيص متقدم لتجربة مترجم الصوت الذكي</p>
+            </div>
+
+            <!-- Settings Tabs -->
+            <div class="settings-tabs">
+                <button class="tab-btn active" data-tab="general">
+                    <i class="fas fa-cog"></i>
+                    عام
+                </button>
+                <button class="tab-btn" data-tab="translation">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </button>
+                <button class="tab-btn" data-tab="voice">
+                    <i class="fas fa-microphone"></i>
+                    الصوت
+                </button>
+                <button class="tab-btn" data-tab="conversation">
+                    <i class="fas fa-comments"></i>
+                    المحادثة
+                </button>
+                <button class="tab-btn" data-tab="performance">
+                    <i class="fas fa-tachometer-alt"></i>
+                    الأداء
+                </button>
+                <button class="tab-btn" data-tab="privacy">
+                    <i class="fas fa-shield-alt"></i>
+                    الخصوصية
+                </button>
+                <button class="tab-btn" data-tab="testing">
+                    <i class="fas fa-vial"></i>
+                    الاختبار
+                </button>
+            </div>
+
+            <!-- General Settings -->
+            <div class="settings-content active" id="general-tab">
+                <div class="settings-section">
+                    <h3>الإعدادات العامة</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">اللغة الافتراضية</span>
+                            <span class="label-description">اللغة الافتراضية للواجهة</span>
+                        </label>
+                        <select class="setting-input" id="default-language">
+                            <option value="ar" selected>العربية</option>
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الوضع المظلم</span>
+                            <span class="label-description">تفعيل الوضع المظلم للواجهة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-mode">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حفظ الإعدادات تلقائياً</span>
+                            <span class="label-description">حفظ الإعدادات في السحابة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-save-settings" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">مستوى التفاصيل</span>
+                            <span class="label-description">مستوى التفاصيل في الرسائل والإشعارات</span>
+                        </label>
+                        <select class="setting-input" id="detail-level">
+                            <option value="minimal">الحد الأدنى</option>
+                            <option value="normal" selected>عادي</option>
+                            <option value="detailed">مفصل</option>
+                            <option value="verbose">مفصل جداً</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>إعدادات الواجهة</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حجم الخط</span>
+                            <span class="label-description">حجم الخط في الواجهة</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="font-size" min="12" max="24" value="16">
+                            <span class="range-value">16px</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">التباعد بين العناصر</span>
+                            <span class="label-description">التباعد بين العناصر في الواجهة</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="spacing" min="8" max="32" value="16">
+                            <span class="range-value">16px</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الرسوم المتحركة</span>
+                            <span class="label-description">تفعيل الرسوم المتحركة في الواجهة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="animations" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translation Settings -->
+            <div class="settings-content" id="translation-tab">
+                <div class="settings-section">
+                    <h3>إعدادات الترجمة</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">خدمة الترجمة المفضلة</span>
+                            <span class="label-description">الخدمة الافتراضية للترجمة</span>
+                        </label>
+                        <select class="setting-input" id="preferred-translation-service">
+                            <option value="google" selected>Google Translate</option>
+                            <option value="microsoft">Microsoft Translator</option>
+                            <option value="deepl">DeepL</option>
+                            <option value="libre">LibreTranslate</option>
+                            <option value="mymemory">MyMemory</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الترجمة التلقائية</span>
+                            <span class="label-description">ترجمة النص تلقائياً عند الكتابة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-translate" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">عرض الترجمات البديلة</span>
+                            <span class="label-description">عرض ترجمات بديلة من خدمات مختلفة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="show-alternative-translations">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حفظ الترجمات</span>
+                            <span class="label-description">حفظ الترجمات في قاعدة البيانات</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="save-translations" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>إعدادات APIs</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">Google Translate API Key</span>
+                            <span class="label-description">مفتاح API لخدمة Google Translate</span>
+                        </label>
+                        <input type="password" class="setting-input" id="google-api-key" placeholder="أدخل مفتاح API">
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">Microsoft Translator API Key</span>
+                            <span class="label-description">مفتاح API لخدمة Microsoft Translator</span>
+                        </label>
+                        <input type="password" class="setting-input" id="microsoft-api-key" placeholder="أدخل مفتاح API">
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">DeepL API Key</span>
+                            <span class="label-description">مفتاح API لخدمة DeepL</span>
+                        </label>
+                        <input type="password" class="setting-input" id="deepl-api-key" placeholder="أدخل مفتاح API">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Settings -->
+            <div class="settings-content" id="voice-tab">
+                <div class="settings-section">
+                    <h3>إعدادات الصوت</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">سرعة الكلام</span>
+                            <span class="label-description">سرعة تحويل النص إلى كلام</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="0.9">
+                            <span class="range-value">0.9x</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">نبرة الصوت</span>
+                            <span class="label-description">نبرة تحويل النص إلى كلام</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="speech-pitch" min="0.5" max="2" step="0.1" value="1">
+                            <span class="range-value">1.0x</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">مستوى الصوت</span>
+                            <span class="label-description">مستوى صوت تحويل النص إلى كلام</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="speech-volume" min="0" max="1" step="0.1" value="1">
+                            <span class="range-value">100%</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">التحدث التلقائي</span>
+                            <span class="label-description">التحدث بالترجمة تلقائياً</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-speak" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>إعدادات التعرف على الصوت</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">دقة التعرف على الصوت</span>
+                            <span class="label-description">مستوى دقة التعرف على الصوت</span>
+                        </label>
+                        <select class="setting-input" id="recognition-accuracy">
+                            <option value="low">منخفضة</option>
+                            <option value="medium" selected>متوسطة</option>
+                            <option value="high">عالية</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">التعرف المستمر</span>
+                            <span class="label-description">التعرف على الصوت بشكل مستمر</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="continuous-recognition">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">عرض النتائج المؤقتة</span>
+                            <span class="label-description">عرض النتائج المؤقتة أثناء التعرف</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="show-interim-results" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversation Settings -->
+            <div class="settings-content" id="conversation-tab">
+                <div class="settings-section">
+                    <h3>إعدادات المحادثة الثنائية</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الحد الأقصى للرسائل</span>
+                            <span class="label-description">الحد الأقصى لعدد الرسائل في المحادثة</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="max-messages" min="50" max="1000" step="50" value="100">
+                            <span class="range-value">100</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حفظ المحادثات</span>
+                            <span class="label-description">حفظ المحادثات في قاعدة البيانات</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="save-conversations" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الترجمة الفورية</span>
+                            <span class="label-description">ترجمة الرسائل فورياً في المحادثة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="real-time-translation" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>إعدادات المحادثة الجماعية</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الحد الأقصى للمشاركين</span>
+                            <span class="label-description">الحد الأقصى لعدد المشاركين في المجموعة</span>
+                        </label>
+                        <div class="range-input">
+                            <input type="range" id="max-participants" min="5" max="50" step="5" value="10">
+                            <span class="range-value">10</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">الترجمة التلقائية للمجموعات</span>
+                            <span class="label-description">ترجمة الرسائل تلقائياً لجميع المشاركين</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-translate-groups" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">إشعارات المجموعة</span>
+                            <span class="label-description">إشعارات عند انضمام أو مغادرة المشاركين</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="group-notifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Settings -->
+            <div class="settings-content" id="performance-tab">
+                <div class="settings-section">
+                    <h3>إعدادات الأداء</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">التحميل البطيء</span>
+                            <span class="label-description">تحميل الصور والمحتوى عند الحاجة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="lazy-loading" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">ضغط البيانات</span>
+                            <span class="label-description">ضغط البيانات لتوفير المساحة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="data-compression" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">إدارة الذاكرة</span>
+                            <span class="label-description">إدارة الذاكرة تلقائياً</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="memory-management" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">مستوى التخزين المؤقت</span>
+                            <span class="label-description">مستوى التخزين المؤقت للمحتوى</span>
+                        </label>
+                        <select class="setting-input" id="cache-level">
+                            <option value="none">بدون تخزين مؤقت</option>
+                            <option value="minimal">الحد الأدنى</option>
+                            <option value="normal" selected>عادي</option>
+                            <option value="aggressive">عدواني</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>مراقبة الأداء</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">مراقبة الأداء</span>
+                            <span class="label-description">مراقبة أداء التطبيق تلقائياً</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="performance-monitoring" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تقرير الأخطاء</span>
+                            <span class="label-description">إرسال تقارير الأخطاء تلقائياً</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="error-reporting" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">إحصائيات الاستخدام</span>
+                            <span class="label-description">جمع إحصائيات الاستخدام</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="usage-statistics" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="settings-content" id="privacy-tab">
+                <div class="settings-section">
+                    <h3>إعدادات الخصوصية</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حذف البيانات تلقائياً</span>
+                            <span class="label-description">حذف البيانات القديمة تلقائياً</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="auto-delete-data" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">فترة الاحتفاظ بالبيانات</span>
+                            <span class="label-description">فترة الاحتفاظ بالبيانات قبل الحذف</span>
+                        </label>
+                        <select class="setting-input" id="data-retention-period">
+                            <option value="1">يوم واحد</option>
+                            <option value="7">أسبوع</option>
+                            <option value="30" selected>شهر</option>
+                            <option value="90">3 أشهر</option>
+                            <option value="365">سنة</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تشفير البيانات</span>
+                            <span class="label-description">تشفير البيانات الحساسة</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="encrypt-data" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">عدم تتبع</span>
+                            <span class="label-description">عدم تتبع النشاط</span>
+                        </label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="do-not-track">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>إدارة البيانات</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تصدير البيانات</span>
+                            <span class="label-description">تصدير جميع البيانات المحفوظة</span>
+                        </label>
+                        <button class="btn btn-outline" id="export-data">
+                            <i class="fas fa-download"></i>
+                            تصدير البيانات
+                        </button>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">حذف جميع البيانات</span>
+                            <span class="label-description">حذف جميع البيانات المحفوظة</span>
+                        </label>
+                        <button class="btn btn-danger" id="delete-all-data">
+                            <i class="fas fa-trash"></i>
+                            حذف جميع البيانات
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testing Settings -->
+            <div class="settings-content" id="testing-tab">
+                <div class="settings-section">
+                    <h3>اختبار الخدمات</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تشغيل اختبارات Firebase</span>
+                            <span class="label-description">اختبار اتصال Firebase وخدماته</span>
+                        </label>
+                        <button class="btn btn-primary" id="test-firebase">
+                            <i class="fas fa-fire"></i>
+                            اختبار Firebase
+                        </button>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تشغيل اختبارات الترجمة</span>
+                            <span class="label-description">اختبار جميع خدمات الترجمة</span>
+                        </label>
+                        <button class="btn btn-primary" id="test-translation">
+                            <i class="fas fa-translate"></i>
+                            اختبار الترجمة
+                        </button>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تشغيل اختبارات الصوت</span>
+                            <span class="label-description">اختبار التعرف على الصوت وتحويل النص إلى كلام</span>
+                        </label>
+                        <button class="btn btn-primary" id="test-voice">
+                            <i class="fas fa-microphone"></i>
+                            اختبار الصوت
+                        </button>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span class="label-text">تشغيل جميع الاختبارات</span>
+                            <span class="label-description">تشغيل جميع اختبارات النظام</span>
+                        </label>
+                        <button class="btn btn-success" id="run-all-tests">
+                            <i class="fas fa-play"></i>
+                            تشغيل جميع الاختبارات
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>نتائج الاختبارات</h3>
+                    <div id="test-results" class="test-results-container">
+                        <div class="no-results">
+                            <i class="fas fa-vial"></i>
+                            <p>لم يتم تشغيل أي اختبارات بعد</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Actions -->
+            <div class="settings-actions">
+                <button class="btn btn-outline" id="reset-settings">
+                    <i class="fas fa-undo"></i>
+                    إعادة تعيين الإعدادات
+                </button>
+                <button class="btn btn-primary" id="save-settings">
+                    <i class="fas fa-save"></i>
+                    حفظ الإعدادات
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="advanced-settings-script.js"></script>
+</body>
+</html>
