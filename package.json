@@ -7,7 +7,11 @@
     "start": "python -m http.server 8000",
     "dev": "python -m http.server 8000",
     "build": "echo 'Building for production...'",
-    "deploy": "echo 'Deploying to GitHub Pages...'"
+    "deploy": "echo 'Deploying to GitHub Pages...'",
+    "test": "node test-local.js",
+    "test:local": "node test-local.js",
+    "test:browser": "echo 'Open index.html in browser and check console for test results'",
+    "test:all": "npm run test:local && npm run test:browser"
   },
   "keywords": [
     "translation",
