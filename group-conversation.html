@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحادثة الجماعية - مترجم الصوت الذكي</title>
+    <meta name="description" content="محادثة جماعية مع ترجمة فورية لعدة لغات">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Voice Translator">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="group-conversation-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-language"></i>
+                <span>مترجم الصوت الذكي</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="translate.html" class="nav-link">
+                    <i class="fas fa-translate"></i>
+                    الترجمة
+                </a>
+                <a href="dual-conversation.html" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    المحادثة الثنائية
+                </a>
+                <a href="group-conversation.html" class="nav-link active">
+                    <i class="fas fa-users"></i>
+                    المحادثة الجماعية
+                </a>
+                <a href="smart-translate.html" class="nav-link">
+                    <i class="fas fa-brain"></i>
+                    الذكية
+                </a>
+                <a href="settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </div>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">
+                    <i class="fas fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="group-conversation-container">
+        <div class="container">
+            <!-- Header -->
+            <div class="group-conversation-header">
+                <h1>المحادثة الجماعية</h1>
+                <p>محادثة جماعية مع ترجمة فورية لعدة لغات</p>
+            </div>
+
+            <!-- Group Setup -->
+            <div class="group-setup" id="group-setup">
+                <div class="setup-card">
+                    <h2>إعداد المجموعة</h2>
+                    <p>أنشئ مجموعة جديدة أو انضم إلى مجموعة موجودة</p>
+                    
+                    <div class="setup-tabs">
+                        <button class="tab-btn active" data-tab="create">
+                            <i class="fas fa-plus"></i>
+                            إنشاء مجموعة
+                        </button>
+                        <button class="tab-btn" data-tab="join">
+                            <i class="fas fa-sign-in-alt"></i>
+                            انضمام لمجموعة
+                        </button>
+                    </div>
+
+                    <!-- Create Group Tab -->
+                    <div class="setup-content active" id="create-tab">
+                        <div class="form-group">
+                            <label for="group-name">اسم المجموعة</label>
+                            <input type="text" id="group-name" class="form-input" placeholder="أدخل اسم المجموعة" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="admin-language">لغتك</label>
+                            <select id="admin-language" class="form-select">
+                                <option value="ar" selected>العربية</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                                <option value="it">Italiano</option>
+                                <option value="pt">Português</option>
+                                <option value="ru">Русский</option>
+                                <option value="zh">中文</option>
+                                <option value="ja">日本語</option>
+                                <option value="ko">한국어</option>
+                                <option value="hi">हिन्दी</option>
+                                <option value="tr">Türkçe</option>
+                                <option value="nl">Nederlands</option>
+                                <option value="sv">Svenska</option>
+                                <option value="no">Norsk</option>
+                                <option value="da">Dansk</option>
+                                <option value="fi">Suomi</option>
+                                <option value="pl">Polski</option>
+                                <option value="cs">Čeština</option>
+                                <option value="hu">Magyar</option>
+                                <option value="ro">Română</option>
+                                <option value="bg">Български</option>
+                                <option value="hr">Hrvatski</option>
+                                <option value="sk">Slovenčina</option>
+                                <option value="sl">Slovenščina</option>
+                                <option value="et">Eesti</option>
+                                <option value="lv">Latviešu</option>
+                                <option value="lt">Lietuvių</option>
+                                <option value="el">Ελληνικά</option>
+                                <option value="he">עברית</option>
+                                <option value="fa">فارسی</option>
+                                <option value="ur">اردو</option>
+                                <option value="bn">বাংলা</option>
+                                <option value="ta">தமிழ்</option>
+                                <option value="te">తెలుగు</option>
+                                <option value="ml">മലയാളം</option>
+                                <option value="kn">ಕನ್ನಡ</option>
+                                <option value="gu">ગુજરાતી</option>
+                                <option value="pa">ਪੰਜਾਬੀ</option>
+                                <option value="mr">मराठी</option>
+                                <option value="ne">नेपाली</option>
+                                <option value="si">සිංහල</option>
+                                <option value="my">မြန်မာ</option>
+                                <option value="th">ไทย</option>
+                                <option value="vi">Tiếng Việt</option>
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="ms">Bahasa Melayu</option>
+                                <option value="tl">Filipino</option>
+                                <option value="sw">Kiswahili</option>
+                                <option value="am">አማርኛ</option>
+                                <option value="yo">Yorùbá</option>
+                                <option value="ig">Igbo</option>
+                                <option value="ha">Hausa</option>
+                                <option value="zu">IsiZulu</option>
+                                <option value="af">Afrikaans</option>
+                                <option value="sq">Shqip</option>
+                                <option value="mk">Македонски</option>
+                                <option value="sr">Српски</option>
+                                <option value="bs">Bosanski</option>
+                                <option value="mt">Malti</option>
+                                <option value="is">Íslenska</option>
+                                <option value="ga">Gaeilge</option>
+                                <option value="cy">Cymraeg</option>
+                                <option value="eu">Euskera</option>
+                                <option value="ca">Català</option>
+                                <option value="gl">Galego</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="max-participants">الحد الأقصى للمشاركين</label>
+                            <select id="max-participants" class="form-select">
+                                <option value="5">5 مشاركين</option>
+                                <option value="10" selected>10 مشاركين</option>
+                                <option value="20">20 مشارك</option>
+                                <option value="50">50 مشارك</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-large" id="create-group">
+                            <i class="fas fa-plus"></i>
+                            إنشاء المجموعة
+                        </button>
+                    </div>
+
+                    <!-- Join Group Tab -->
+                    <div class="setup-content" id="join-tab">
+                        <div class="form-group">
+                            <label for="group-id">معرف المجموعة</label>
+                            <input type="text" id="group-id" class="form-input" placeholder="أدخل معرف المجموعة" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="participant-name">اسمك</label>
+                            <input type="text" id="participant-name" class="form-input" placeholder="أدخل اسمك" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="participant-language">لغتك</label>
+                            <select id="participant-language" class="form-select">
+                                <option value="ar" selected>العربية</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                                <option value="it">Italiano</option>
+                                <option value="pt">Português</option>
+                                <option value="ru">Русский</option>
+                                <option value="zh">中文</option>
+                                <option value="ja">日本語</option>
+                                <option value="ko">한국어</option>
+                                <option value="hi">हिन्दी</option>
+                                <option value="tr">Türkçe</option>
+                                <option value="nl">Nederlands</option>
+                                <option value="sv">Svenska</option>
+                                <option value="no">Norsk</option>
+                                <option value="da">Dansk</option>
+                                <option value="fi">Suomi</option>
+                                <option value="pl">Polski</option>
+                                <option value="cs">Čeština</option>
+                                <option value="hu">Magyar</option>
+                                <option value="ro">Română</option>
+                                <option value="bg">Български</option>
+                                <option value="hr">Hrvatski</option>
+                                <option value="sk">Slovenčina</option>
+                                <option value="sl">Slovenščina</option>
+                                <option value="et">Eesti</option>
+                                <option value="lv">Latviešu</option>
+                                <option value="lt">Lietuvių</option>
+                                <option value="el">Ελληνικά</option>
+                                <option value="he">עברית</option>
+                                <option value="fa">فارسی</option>
+                                <option value="ur">اردو</option>
+                                <option value="bn">বাংলা</option>
+                                <option value="ta">தமிழ்</option>
+                                <option value="te">తెలుగు</option>
+                                <option value="ml">മലയാളം</option>
+                                <option value="kn">ಕನ್ನಡ</option>
+                                <option value="gu">ગુજરાતી</option>
+                                <option value="pa">ਪੰਜਾਬੀ</option>
+                                <option value="mr">मराठी</option>
+                                <option value="ne">नेपाली</option>
+                                <option value="si">සිංහල</option>
+                                <option value="my">မြန်မာ</option>
+                                <option value="th">ไทย</option>
+                                <option value="vi">Tiếng Việt</option>
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="ms">Bahasa Melayu</option>
+                                <option value="tl">Filipino</option>
+                                <option value="sw">Kiswahili</option>
+                                <option value="am">አማርኛ</option>
+                                <option value="yo">Yorùbá</option>
+                                <option value="ig">Igbo</option>
+                                <option value="ha">Hausa</option>
+                                <option value="zu">IsiZulu</option>
+                                <option value="af">Afrikaans</option>
+                                <option value="sq">Shqip</option>
+                                <option value="mk">Македонски</option>
+                                <option value="sr">Српски</option>
+                                <option value="bs">Bosanski</option>
+                                <option value="mt">Malti</option>
+                                <option value="is">Íslenska</option>
+                                <option value="ga">Gaeilge</option>
+                                <option value="cy">Cymraeg</option>
+                                <option value="eu">Euskera</option>
+                                <option value="ca">Català</option>
+                                <option value="gl">Galego</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-large" id="join-group">
+                            <i class="fas fa-sign-in-alt"></i>
+                            انضمام للمجموعة
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group Interface -->
+            <div class="group-interface" id="group-interface" style="display: none;">
+                <!-- Group Header -->
+                <div class="group-header-bar">
+                    <div class="group-info">
+                        <h2 id="group-title">المجموعة</h2>
+                        <div class="group-meta">
+                            <span class="participant-count" id="participant-count">0 مشارك</span>
+                            <span class="group-id" id="group-id-display">ID: -</span>
+                        </div>
+                    </div>
+                    <div class="group-controls">
+                        <button class="btn btn-outline" id="group-settings">
+                            <i class="fas fa-cog"></i>
+                            الإعدادات
+                        </button>
+                        <button class="btn btn-outline" id="leave-group">
+                            <i class="fas fa-sign-out-alt"></i>
+                            مغادرة المجموعة
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group Content -->
+                <div class="group-content">
+                    <!-- Participants Sidebar -->
+                    <div class="participants-sidebar">
+                        <div class="sidebar-header">
+                            <h3>المشاركون</h3>
+                            <span class="participant-count" id="sidebar-participant-count">0</span>
+                        </div>
+                        <div class="participants-list" id="group-participants">
+                            <!-- Participants will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Messages Area -->
+                    <div class="messages-area">
+                        <div class="messages-container">
+                            <div class="messages-header">
+                                <h3>المحادثة</h3>
+                                <div class="message-controls">
+                                    <button class="btn btn-sm btn-outline" id="clear-messages">
+                                        <i class="fas fa-trash"></i>
+                                        مسح المحادثة
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="messages-list" id="group-messages">
+                                <div class="welcome-message">
+                                    <i class="fas fa-users"></i>
+                                    <p>مرحباً بك في المحادثة الجماعية</p>
+                                    <p>ابدأ المحادثة مع المشاركين الآخرين</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Message Input -->
+                        <div class="message-input-area">
+                            <div class="input-controls">
+                                <button class="input-mode-btn active" data-mode="text">
+                                    <i class="fas fa-keyboard"></i>
+                                    نص
+                                </button>
+                                <button class="input-mode-btn" data-mode="voice">
+                                    <i class="fas fa-microphone"></i>
+                                    صوت
+                                </button>
+                            </div>
+                            
+                            <div class="message-input-container">
+                                <textarea 
+                                    id="group-message-input" 
+                                    class="message-input" 
+                                    placeholder="اكتب رسالتك هنا..."
+                                    rows="3"
+                                ></textarea>
+                                <button class="btn btn-primary" id="send-group-message">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="transcription-area" id="group-transcription" style="display: none;">
+                                <div class="transcription-text">
+                                    <div class="placeholder">
+                                        <i class="fas fa-microphone-slash"></i>
+                                        <p>اضغط على زر الصوت وابدأ بالحديث</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group History -->
+            <div class="group-history" id="group-history" style="display: none;">
+                <h3>تاريخ المجموعات</h3>
+                <div class="history-list" id="group-history-list">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>لا توجد مجموعات سابقة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Group Settings Modal -->
+    <div class="modal" id="group-settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إعدادات المجموعة</h3>
+                <button class="modal-close" id="close-settings-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4>إعدادات الترجمة</h4>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="auto-translate" checked>
+                            <span class="checkmark"></span>
+                            الترجمة التلقائية
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="allow-voice-messages" checked>
+                            <span class="checkmark"></span>
+                            السماح بالرسائل الصوتية
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="allow-text-messages" checked>
+                            <span class="checkmark"></span>
+                            السماح بالرسائل النصية
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>إعدادات المشاركين</h4>
+                    <div class="setting-item">
+                        <label for="max-participants-setting">الحد الأقصى للمشاركين</label>
+                        <select id="max-participants-setting" class="form-select">
+                            <option value="5">5 مشاركين</option>
+                            <option value="10" selected>10 مشاركين</option>
+                            <option value="20">20 مشارك</option>
+                            <option value="50">50 مشارك</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-settings">إلغاء</button>
+                <button class="btn btn-primary" id="save-settings">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>جاري إعداد المجموعة...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="group-conversation-script.js"></script>
+</body>
+</html>

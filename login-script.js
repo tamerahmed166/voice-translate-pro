@@ -1,5 +1,7 @@
-// Login Page Specific Script
-// Handles authentication, form validation, and user management
+// Login Script for Voice Translator Pro with Firebase Authentication
+// كود تسجيل الدخول لمترجم الصوت الذكي مع مصادقة Firebase
+
+import { authService } from './auth-service.js';
 
 class LoginManager {
     constructor() {
@@ -13,6 +15,7 @@ class LoginManager {
         this.setupPasswordStrength();
         this.setupSocialLogin();
         this.loadSavedCredentials();
+        this.setupAuthStateListener();
     }
 
     setupEventListeners() {
@@ -195,6 +198,18 @@ class LoginManager {
         });
     }
 
+    setupAuthStateListener() {
+        authService.addAuthStateListener((user) => {
+            if (user) {
+                // User is signed in, redirect to main page
+                this.showMessage('مرحباً بك! تم تسجيل الدخول بنجاح', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        });
+    }
+
     // Form Handlers
     async handleLogin() {
         const form = document.getElementById('login-form');
@@ -212,28 +227,26 @@ class LoginManager {
         this.showLoading(true);
         
         try {
-            // Simulate API call
-            const result = await this.authenticateUser(email, password);
+            const result = await authService.signInWithEmail(email, password);
             
             if (result.success) {
                 // Save credentials if remember me is checked
                 if (remember) {
                     this.saveCredentials(email, password);
+                } else {
+                    this.clearCredentials();
                 }
                 
-                // Save user session
-                this.saveUserSession(result.user);
+                // Log auth event
+                await authService.logAuthEvent('login', { method: 'email' });
                 
                 // Show success message
                 this.showMessage('تم تسجيل الدخول بنجاح!', 'success');
                 
-                // Redirect to main page
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
+                // Redirect will be handled by auth state listener
                 
             } else {
-                this.showMessage(result.message || 'خطأ في تسجيل الدخول', 'error');
+                this.showMessage(result.error, 'error');
             }
             
         } catch (error) {
@@ -262,23 +275,23 @@ class LoginManager {
         this.showLoading(true);
         
         try {
-            // Simulate API call
-            const result = await this.registerUser(name, email, password);
+            const result = await authService.signUpWithEmail(email, password, name);
             
             if (result.success) {
-                // Save user session
-                this.saveUserSession(result.user);
+                // Log auth event
+                await authService.logAuthEvent('register', { method: 'email' });
                 
                 // Show success message
-                this.showMessage('تم إنشاء الحساب بنجاح!', 'success');
+                this.showMessage('تم إنشاء الحساب بنجاح! تحقق من بريدك الإلكتروني للتفعيل', 'success');
                 
-                // Redirect to main page
+                // Switch to login tab
                 setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
+                    this.switchTab('login');
+                    document.getElementById('login-email').value = email;
+                }, 2000);
                 
             } else {
-                this.showMessage(result.message || 'خطأ في إنشاء الحساب', 'error');
+                this.showMessage(result.error, 'error');
             }
             
         } catch (error) {
@@ -302,15 +315,17 @@ class LoginManager {
         this.showLoading(true);
         
         try {
-            // Simulate API call
-            const result = await this.sendPasswordReset(email);
+            const result = await authService.resetPassword(email);
             
             if (result.success) {
                 this.showMessage('تم إرسال رابط استعادة كلمة المرور إلى بريدك الإلكتروني', 'success');
                 document.getElementById('forgot-password-modal').classList.remove('active');
                 form.reset();
+                
+                // Log auth event
+                await authService.logAuthEvent('password_reset_requested', { email });
             } else {
-                this.showMessage(result.message || 'خطأ في إرسال رابط الاستعادة', 'error');
+                this.showMessage(result.error, 'error');
             }
             
         } catch (error) {
@@ -325,23 +340,38 @@ class LoginManager {
         this.showLoading(true);
         
         try {
-            // Simulate social login
-            const result = await this.authenticateWithSocial(provider);
+            let result;
+            
+            switch (provider) {
+                case 'google':
+                    result = await authService.signInWithGoogle();
+                    break;
+                case 'facebook':
+                    result = await authService.signInWithFacebook();
+                    break;
+                case 'apple':
+                    // Apple Sign-In would be implemented here
+                    this.showMessage('تسجيل الدخول بـ Apple غير متاح حالياً', 'warning');
+                    this.showLoading(false);
+                    return;
+                default:
+                    throw new Error('مزود المصادقة غير مدعوم');
+            }
             
             if (result.success) {
-                this.saveUserSession(result.user);
-                this.showMessage(`تم تسجيل الدخول بـ ${provider} بنجاح!`, 'success');
+                // Log auth event
+                await authService.logAuthEvent('login', { method: provider });
                 
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
+                this.showMessage(`تم تسجيل الدخول بنجاح باستخدام ${provider}!`, 'success');
+                
+                // Redirect will be handled by auth state listener
             } else {
-                this.showMessage(result.message || 'خطأ في تسجيل الدخول', 'error');
+                this.showMessage(result.error, 'error');
             }
             
         } catch (error) {
             console.error('Social login error:', error);
-            this.showMessage('حدث خطأ في تسجيل الدخول', 'error');
+            this.showMessage(`خطأ في تسجيل الدخول باستخدام ${provider}`, 'error');
         } finally {
             this.showLoading(false);
         }
@@ -480,99 +510,6 @@ class LoginManager {
         return levels[Math.min(score, 3)];
     }
 
-    // API Simulation Methods
-    async authenticateUser(email, password) {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock authentication
-        const users = this.getStoredUsers();
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            return {
-                success: true,
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    type: 'registered'
-                }
-            };
-        } else {
-            return {
-                success: false,
-                message: 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
-            };
-        }
-    }
-
-    async registerUser(name, email, password) {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Check if user already exists
-        const users = this.getStoredUsers();
-        const existingUser = users.find(u => u.email === email);
-        
-        if (existingUser) {
-            return {
-                success: false,
-                message: 'البريد الإلكتروني مستخدم بالفعل'
-            };
-        }
-        
-        // Create new user
-        const newUser = {
-            id: Date.now(),
-            name,
-            email,
-            password,
-            createdAt: new Date().toISOString()
-        };
-        
-        users.push(newUser);
-        localStorage.setItem('registered-users', JSON.stringify(users));
-        
-        return {
-            success: true,
-            user: {
-                id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-                type: 'registered'
-            }
-        };
-    }
-
-    async sendPasswordReset(email) {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock password reset
-        return {
-            success: true,
-            message: 'تم إرسال رابط استعادة كلمة المرور'
-        };
-    }
-
-    async authenticateWithSocial(provider) {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Mock social authentication
-        return {
-            success: true,
-            user: {
-                id: Date.now(),
-                name: `مستخدم ${provider}`,
-                email: `user@${provider}.com`,
-                type: 'social',
-                provider
-            }
-        };
-    }
-
     // Utility Methods
     showFieldError(input, message) {
         this.clearFieldError(input);
@@ -677,6 +614,10 @@ class LoginManager {
         localStorage.setItem('saved-credentials', JSON.stringify(credentials));
     }
 
+    clearCredentials() {
+        localStorage.removeItem('saved-credentials');
+    }
+
     loadSavedCredentials() {
         const saved = localStorage.getItem('saved-credentials');
         if (saved) {
@@ -695,18 +636,26 @@ class LoginManager {
         }
     }
 
-    saveUserSession(user) {
-        const session = {
-            user,
-            timestamp: Date.now(),
-            expires: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
-        };
-        localStorage.setItem('user-session', JSON.stringify(session));
-    }
+    switchTab(tab) {
+        // Update tab buttons
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.tab === tab) {
+                btn.classList.add('active');
+            }
+        });
 
-    getStoredUsers() {
-        const stored = localStorage.getItem('registered-users');
-        return stored ? JSON.parse(stored) : [];
+        // Update forms
+        const forms = document.querySelectorAll('.login-form');
+        forms.forEach(form => {
+            form.classList.remove('active');
+            if (form.id === `${tab}-form`) {
+                form.classList.add('active');
+            }
+        });
+
+        this.currentTab = tab;
     }
 }
 
@@ -741,4 +690,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-

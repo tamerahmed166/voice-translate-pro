@@ -1,25 +1,47 @@
-// Conversation Page Specific Script
-// Handles dual conversation functionality
+// Enhanced Conversation Script for Voice Translator Pro
+// كود المحادثة المحسن لمترجم الصوت الذكي
+
+import { conversationService } from './conversation-service.js';
+import { appConfig } from './app-config.js';
 
 class ConversationManager {
     constructor() {
-        this.isActive = false;
+        this.conversationService = conversationService;
+        this.appConfig = appConfig;
         this.currentMode = 'voice';
-        this.participant1Lang = 'ar';
-        this.participant2Lang = 'en';
-        this.conversationHistory = [];
-        this.recognition1 = null;
-        this.recognition2 = null;
-        this.isRecording1 = false;
-        this.isRecording2 = false;
+        this.isInitialized = false;
         
         this.init();
     }
 
-    init() {
-        this.setupEventListeners();
-        this.setupSpeechRecognition();
-        this.loadConversationHistory();
+    async init() {
+        try {
+            // Wait for app config to be ready
+            await this.waitForAppConfig();
+            
+            this.setupEventListeners();
+            this.setupUI();
+            this.loadConversationHistory();
+            
+            this.isInitialized = true;
+            console.log('Conversation manager initialized successfully');
+        } catch (error) {
+            console.error('Failed to initialize conversation manager:', error);
+        }
+    }
+
+    async waitForAppConfig() {
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max wait
+        
+        while (!this.appConfig.isInitialized && attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        if (!this.appConfig.isInitialized) {
+            throw new Error('App config not initialized');
+        }
     }
 
     setupEventListeners() {
@@ -58,6 +80,28 @@ class ConversationManager {
         
         // Mixed conversation
         this.setupMixedConversation();
+
+        // Listen for conversation service events
+        this.setupConversationServiceListeners();
+    }
+
+    setupConversationServiceListeners() {
+        // Listen for conversation events from the service
+        document.addEventListener('conversationStarted', (event) => {
+            this.handleConversationStarted(event.detail);
+        });
+
+        document.addEventListener('conversationEnded', (event) => {
+            this.handleConversationEnded(event.detail);
+        });
+
+        document.addEventListener('translationCompleted', (event) => {
+            this.handleTranslationCompleted(event.detail);
+        });
+
+        document.addEventListener('translationError', (event) => {
+            this.handleTranslationError(event.detail);
+        });
     }
 
     setupModeSwitching() {
@@ -77,6 +121,7 @@ class ConversationManager {
                 document.getElementById(`${mode}-mode`)?.classList.add('active');
                 
                 this.currentMode = mode;
+                this.conversationService.switchConversationMode(mode);
             });
         });
     }
@@ -87,13 +132,13 @@ class ConversationManager {
 
         if (voiceBtn1) {
             voiceBtn1.addEventListener('click', () => {
-                this.toggleRecording(1);
+                this.toggleParticipantRecording('participant1');
             });
         }
 
         if (voiceBtn2) {
             voiceBtn2.addEventListener('click', () => {
-                this.toggleRecording(2);
+                this.toggleParticipantRecording('participant2');
             });
         }
     }
@@ -124,12 +169,7 @@ class ConversationManager {
                 modeBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                const input = document.getElementById('chat-input');
-                if (input) {
-                    input.placeholder = participant === '1' ? 
-                        'اكتب رسالتك هنا...' : 
-                        'Type your message here...';
-                }
+                this.updateInputPlaceholder(participant);
             });
         });
     }
@@ -159,532 +199,231 @@ class ConversationManager {
         }
     }
 
-    setupSpeechRecognition() {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            // Participant 1 recognition
-            this.recognition1 = new SpeechRecognition();
-            this.recognition1.continuous = false;
-            this.recognition1.interimResults = true;
-            this.recognition1.lang = this.getSpeechLangCode(this.participant1Lang);
-
-            this.recognition1.onstart = () => {
-                this.isRecording1 = true;
-                this.updateRecordingUI(1, true);
-            };
-
-            this.recognition1.onresult = (event) => {
-                this.handleSpeechResult(event, 1);
-            };
-
-            this.recognition1.onerror = (event) => {
-                console.error('Speech recognition error (P1):', event.error);
-                this.stopRecording(1);
-            };
-
-            this.recognition1.onend = () => {
-                this.isRecording1 = false;
-                this.updateRecordingUI(1, false);
-            };
-
-            // Participant 2 recognition
-            this.recognition2 = new SpeechRecognition();
-            this.recognition2.continuous = false;
-            this.recognition2.interimResults = true;
-            this.recognition2.lang = this.getSpeechLangCode(this.participant2Lang);
-
-            this.recognition2.onstart = () => {
-                this.isRecording2 = true;
-                this.updateRecordingUI(2, true);
-            };
-
-            this.recognition2.onresult = (event) => {
-                this.handleSpeechResult(event, 2);
-            };
-
-            this.recognition2.onerror = (event) => {
-                console.error('Speech recognition error (P2):', event.error);
-                this.stopRecording(2);
-            };
-
-            this.recognition2.onend = () => {
-                this.isRecording2 = false;
-                this.updateRecordingUI(2, false);
-            };
-        }
-    }
-
-    startConversation() {
-        const participant1Lang = document.getElementById('participant1-lang')?.value;
-        const participant2Lang = document.getElementById('participant2-lang')?.value;
-
-        if (!participant1Lang || !participant2Lang) {
-            this.showMessage('يرجى اختيار لغات للمشاركين', 'error');
-            return;
-        }
-
-        this.participant1Lang = participant1Lang;
-        this.participant2Lang = participant2Lang;
-
-        // Update UI
-        document.getElementById('conversation-setup').style.display = 'none';
-        document.getElementById('conversation-interface').style.display = 'block';
-        document.getElementById('conversation-history').style.display = 'block';
-
+    setupUI() {
         // Update language indicators
         this.updateLanguageIndicators();
-
-        // Update speech recognition languages
-        if (this.recognition1) {
-            this.recognition1.lang = this.getSpeechLangCode(this.participant1Lang);
-        }
-        if (this.recognition2) {
-            this.recognition2.lang = this.getSpeechLangCode(this.participant2Lang);
-        }
-
-        this.isActive = true;
-        this.showMessage('تم بدء المحادثة بنجاح', 'success');
-    }
-
-    endConversation() {
-        this.isActive = false;
         
-        // Stop any ongoing recordings
-        this.stopRecording(1);
-        this.stopRecording(2);
-
-        // Save conversation to history
-        this.saveConversationToHistory();
-
-        // Reset UI
-        document.getElementById('conversation-setup').style.display = 'block';
-        document.getElementById('conversation-interface').style.display = 'none';
-
-        // Clear conversation data
-        this.conversationHistory = [];
-        this.clearConversationUI();
-
-        this.showMessage('تم إنهاء المحادثة', 'info');
+        // Setup participant names
+        this.setupParticipantNames();
     }
 
-    togglePause() {
-        const pauseBtn = document.getElementById('pause-conversation');
-        if (pauseBtn) {
-            const isPaused = pauseBtn.classList.contains('paused');
+    setupParticipantNames() {
+        const participant1Name = document.getElementById('participant1-name');
+        const participant2Name = document.getElementById('participant2-name');
+        const inputModeParticipant1 = document.getElementById('input-mode-participant1');
+        const inputModeParticipant2 = document.getElementById('input-mode-participant2');
+
+        if (participant1Name) participant1Name.textContent = 'المشارك الأول';
+        if (participant2Name) participant2Name.textContent = 'المشارك الثاني';
+        if (inputModeParticipant1) inputModeParticipant1.textContent = 'المشارك الأول';
+        if (inputModeParticipant2) inputModeParticipant2.textContent = 'المشارك الثاني';
+    }
+
+    // Conversation Management
+    async startConversation() {
+        try {
+            const participant1Lang = document.getElementById('participant1-lang')?.value;
+            const participant2Lang = document.getElementById('participant2-lang')?.value;
+
+            if (!participant1Lang || !participant2Lang) {
+                this.showMessage('يرجى اختيار لغات للمشاركين', 'error');
+                return;
+            }
+
+            if (participant1Lang === participant2Lang) {
+                this.showMessage('يجب اختيار لغات مختلفة للمشاركين', 'error');
+                return;
+            }
+
+            // Start conversation using the service
+            await this.conversationService.startConversation(
+                participant1Lang, 
+                participant2Lang, 
+                this.currentMode
+            );
+
+        } catch (error) {
+            console.error('Error starting conversation:', error);
+            this.showMessage('خطأ في بدء المحادثة: ' + error.message, 'error');
+        }
+    }
+
+    async endConversation() {
+        try {
+            await this.conversationService.endConversation();
+        } catch (error) {
+            console.error('Error ending conversation:', error);
+            this.showMessage('خطأ في إنهاء المحادثة: ' + error.message, 'error');
+        }
+    }
+
+    async togglePause() {
+        try {
+            const pauseBtn = document.getElementById('pause-conversation');
+            const isPaused = pauseBtn?.classList.contains('paused');
             
             if (isPaused) {
+                await this.conversationService.resumeConversation();
                 pauseBtn.classList.remove('paused');
                 pauseBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
-                this.isActive = true;
             } else {
+                await this.conversationService.pauseConversation();
                 pauseBtn.classList.add('paused');
                 pauseBtn.innerHTML = '<i class="fas fa-play"></i> متابعة';
-                this.isActive = false;
-                
-                // Stop any ongoing recordings
-                this.stopRecording(1);
-                this.stopRecording(2);
             }
-        }
-    }
-
-    toggleRecording(participant) {
-        if (!this.isActive) {
-            this.showMessage('المحادثة غير نشطة', 'warning');
-            return;
-        }
-
-        if (participant === 1) {
-            if (this.isRecording1) {
-                this.stopRecording(1);
-            } else {
-                this.startRecording(1);
-            }
-        } else {
-            if (this.isRecording2) {
-                this.stopRecording(2);
-            } else {
-                this.startRecording(2);
-            }
-        }
-    }
-
-    startRecording(participant) {
-        const recognition = participant === 1 ? this.recognition1 : this.recognition2;
-        
-        if (recognition) {
-            recognition.start();
-        } else {
-            this.showMessage('التعرف على الصوت غير مدعوم', 'error');
-        }
-    }
-
-    stopRecording(participant) {
-        const recognition = participant === 1 ? this.recognition1 : this.recognition2;
-        
-        if (recognition && (participant === 1 ? this.isRecording1 : this.isRecording2)) {
-            recognition.stop();
-        }
-    }
-
-    handleSpeechResult(event, participant) {
-        let finalTranscript = '';
-        let interimTranscript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-            const transcript = event.results[i][0].transcript;
-            if (event.results[i].isFinal) {
-                finalTranscript += transcript;
-            } else {
-                interimTranscript += transcript;
-            }
-        }
-
-        // Update transcription display
-        const transcriptionEl = document.getElementById(`participant${participant}-transcription`);
-        if (transcriptionEl) {
-            transcriptionEl.innerHTML = `
-                <div class="transcription-result">
-                    <div class="final">${finalTranscript}</div>
-                    <div class="interim">${interimTranscript}</div>
-                </div>
-            `;
-        }
-
-        // If we have final transcript, translate it
-        if (finalTranscript) {
-            this.translateAndDisplay(finalTranscript, participant);
-        }
-    }
-
-    async translateAndDisplay(text, participant) {
-        const sourceLang = participant === 1 ? this.participant1Lang : this.participant2Lang;
-        const targetLang = participant === 1 ? this.participant2Lang : this.participant1Lang;
-
-        try {
-            // Simulate translation API call
-            const translation = await this.callTranslationAPI(text, sourceLang, targetLang);
-            
-            // Display translation
-            const targetTranscriptionEl = document.getElementById(
-                `participant${participant === 1 ? 2 : 1}-transcription`
-            );
-            
-            if (targetTranscriptionEl) {
-                targetTranscriptionEl.innerHTML = `
-                    <div class="translation-result">
-                        ${translation}
-                    </div>
-                `;
-            }
-
-            // Add to conversation history
-            this.addToConversationHistory({
-                participant,
-                original: text,
-                translation,
-                sourceLang,
-                targetLang,
-                timestamp: new Date().toISOString(),
-                type: 'voice'
-            });
-
-            // Speak translation
-            this.speakText(translation, targetLang);
-
         } catch (error) {
-            console.error('Translation error:', error);
-            this.showMessage('خطأ في الترجمة', 'error');
+            console.error('Error toggling pause:', error);
+            this.showMessage('خطأ في التحكم بالمحادثة: ' + error.message, 'error');
         }
     }
 
-    sendTextMessage() {
-        const input = document.getElementById('chat-input');
-        const activeMode = document.querySelector('.input-mode-btn.active');
-        
-        if (!input || !input.value.trim() || !activeMode) {
-            return;
-        }
-
-        const text = input.value.trim();
-        const participant = parseInt(activeMode.dataset.participant);
-        
-        // Add message to chat
-        this.addMessageToChat(text, participant);
-        
-        // Translate and add response
-        this.translateAndAddResponse(text, participant);
-        
-        // Clear input
-        input.value = '';
-    }
-
-    addMessageToChat(text, participant) {
-        const messagesContainer = document.getElementById('chat-messages');
-        if (!messagesContainer) return;
-
-        // Remove welcome message if exists
-        const welcomeMsg = messagesContainer.querySelector('.welcome-message');
-        if (welcomeMsg) {
-            welcomeMsg.remove();
-        }
-
-        const messageEl = document.createElement('div');
-        messageEl.className = `chat-message participant${participant}`;
-        
-        const bubbleEl = document.createElement('div');
-        bubbleEl.className = `message-bubble participant${participant}`;
-        
-        const contentEl = document.createElement('div');
-        contentEl.className = 'message-content';
-        contentEl.textContent = text;
-        
-        const timeEl = document.createElement('div');
-        timeEl.className = 'message-time';
-        timeEl.textContent = new Date().toLocaleTimeString('ar-SA');
-        
-        bubbleEl.appendChild(contentEl);
-        bubbleEl.appendChild(timeEl);
-        messageEl.appendChild(bubbleEl);
-        messagesContainer.appendChild(bubbleEl);
-        
-        // Scroll to bottom
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    async translateAndAddResponse(text, participant) {
-        const sourceLang = participant === 1 ? this.participant1Lang : this.participant2Lang;
-        const targetLang = participant === 1 ? this.participant2Lang : this.participant1Lang;
-
+    // Voice Controls
+    async toggleParticipantRecording(participantId) {
         try {
-            const translation = await this.callTranslationAPI(text, sourceLang, targetLang);
+            const isRecording = this.conversationService.recordingState[participantId];
             
-            // Add translated message
-            this.addMessageToChat(translation, participant === 1 ? 2 : 1);
-            
-            // Add to conversation history
-            this.addToConversationHistory({
-                participant,
-                original: text,
-                translation,
-                sourceLang,
-                targetLang,
-                timestamp: new Date().toISOString(),
-                type: 'text'
-            });
-
+            if (isRecording) {
+                await this.stopParticipantRecording(participantId);
+            } else {
+                await this.startParticipantRecording(participantId);
+            }
         } catch (error) {
-            console.error('Translation error:', error);
-            this.showMessage('خطأ في الترجمة', 'error');
+            console.error('Error toggling recording:', error);
+            this.showMessage('خطأ في التحكم بالتسجيل: ' + error.message, 'error');
         }
     }
 
-    sendMixedMessage() {
-        const textInput = document.getElementById('mixed-text-input');
-        
-        if (!textInput || !textInput.value.trim()) {
-            return;
-        }
-
-        const text = textInput.value.trim();
-        
-        // Add to timeline
-        this.addToTimeline(text, 'text');
-        
-        // Translate and add response
-        this.translateAndAddTimelineResponse(text);
-        
-        // Clear input
-        textInput.value = '';
+    async startParticipantRecording(participantId) {
+        // This would integrate with the conversation service
+        this.updateRecordingUI(participantId, true);
+        this.conversationService.recordingState[participantId] = true;
     }
 
-    toggleMixedRecording() {
-        const voiceBtn = document.getElementById('mixed-voice-btn');
-        
-        if (voiceBtn.classList.contains('recording')) {
-            this.stopMixedRecording();
-        } else {
-            this.startMixedRecording();
-        }
+    async stopParticipantRecording(participantId) {
+        // This would integrate with the conversation service
+        this.updateRecordingUI(participantId, false);
+        this.conversationService.recordingState[participantId] = false;
     }
 
-    startMixedRecording() {
-        // Use participant 1 recognition for mixed mode
-        if (this.recognition1) {
-            this.recognition1.start();
+    // Text Conversation
+    async sendTextMessage() {
+        try {
+            const input = document.getElementById('chat-input');
+            const activeMode = document.querySelector('.input-mode-btn.active');
             
+            if (!input || !input.value.trim() || !activeMode) {
+                return;
+            }
+
+            const text = input.value.trim();
+            const participantId = activeMode.dataset.participant === '1' ? 'participant1' : 'participant2';
+            
+            // Process text input using the service
+            await this.conversationService.processTextInput(text, participantId);
+            
+            // Clear input
+            input.value = '';
+            
+        } catch (error) {
+            console.error('Error sending text message:', error);
+            this.showMessage('خطأ في إرسال الرسالة: ' + error.message, 'error');
+        }
+    }
+
+    // Mixed Conversation
+    async sendMixedMessage() {
+        try {
+            const textInput = document.getElementById('mixed-text-input');
+            
+            if (!textInput || !textInput.value.trim()) {
+                return;
+            }
+
+            const text = textInput.value.trim();
+            
+            // Process mixed message using the service
+            await this.conversationService.processTextInput(text, 'participant1');
+            
+            // Clear input
+            textInput.value = '';
+            
+        } catch (error) {
+            console.error('Error sending mixed message:', error);
+            this.showMessage('خطأ في إرسال الرسالة: ' + error.message, 'error');
+        }
+    }
+
+    async toggleMixedRecording() {
+        try {
             const voiceBtn = document.getElementById('mixed-voice-btn');
+            const isRecording = voiceBtn?.classList.contains('recording');
+            
+            if (isRecording) {
+                await this.stopMixedRecording();
+            } else {
+                await this.startMixedRecording();
+            }
+        } catch (error) {
+            console.error('Error toggling mixed recording:', error);
+            this.showMessage('خطأ في التحكم بالتسجيل: ' + error.message, 'error');
+        }
+    }
+
+    async startMixedRecording() {
+        const voiceBtn = document.getElementById('mixed-voice-btn');
+        if (voiceBtn) {
             voiceBtn.classList.add('recording');
             voiceBtn.innerHTML = '<i class="fas fa-stop"></i><span>إيقاف التسجيل</span>';
         }
+        
+        // Start recording for participant 1
+        await this.startParticipantRecording('participant1');
     }
 
-    stopMixedRecording() {
-        if (this.recognition1 && this.isRecording1) {
-            this.recognition1.stop();
-        }
-        
+    async stopMixedRecording() {
         const voiceBtn = document.getElementById('mixed-voice-btn');
-        voiceBtn.classList.remove('recording');
-        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i><span>تسجيل صوتي</span>';
-    }
-
-    addToTimeline(content, type) {
-        const timeline = document.getElementById('conversation-timeline');
-        if (!timeline) return;
-
-        const itemEl = document.createElement('div');
-        itemEl.className = 'timeline-item';
-        
-        const contentEl = document.createElement('div');
-        contentEl.className = 'timeline-content';
-        contentEl.innerHTML = `
-            <i class="fas fa-${type === 'text' ? 'keyboard' : 'microphone'}"></i>
-            <p>${content}</p>
-        `;
-        
-        itemEl.appendChild(contentEl);
-        timeline.appendChild(itemEl);
-        
-        // Scroll to bottom
-        timeline.scrollTop = timeline.scrollHeight;
-    }
-
-    async translateAndAddTimelineResponse(text) {
-        try {
-            const translation = await this.callTranslationAPI(text, this.participant1Lang, this.participant2Lang);
-            this.addToTimeline(translation, 'translation');
-        } catch (error) {
-            console.error('Translation error:', error);
-        }
-    }
-
-    addToConversationHistory(item) {
-        this.conversationHistory.push(item);
-    }
-
-    saveConversationToHistory() {
-        if (this.conversationHistory.length === 0) return;
-
-        const conversation = {
-            id: Date.now(),
-            participant1Lang: this.participant1Lang,
-            participant2Lang: this.participant2Lang,
-            messages: this.conversationHistory,
-            timestamp: new Date().toISOString(),
-            duration: this.getConversationDuration()
-        };
-
-        const history = this.getConversationHistory();
-        history.unshift(conversation);
-        
-        // Keep only last 50 conversations
-        if (history.length > 50) {
-            history.splice(50);
+        if (voiceBtn) {
+            voiceBtn.classList.remove('recording');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i><span>تسجيل صوتي</span>';
         }
         
-        localStorage.setItem('conversation-history', JSON.stringify(history));
-        this.updateHistoryDisplay();
+        // Stop recording for participant 1
+        await this.stopParticipantRecording('participant1');
     }
 
-    getConversationDuration() {
-        if (this.conversationHistory.length === 0) return 0;
-        
-        const start = new Date(this.conversationHistory[0].timestamp);
-        const end = new Date(this.conversationHistory[this.conversationHistory.length - 1].timestamp);
-        
-        return Math.round((end - start) / 1000); // in seconds
+    // UI Updates
+    updateLanguageIndicators() {
+        const lang1Name = document.getElementById('lang1-name');
+        const lang2Name = document.getElementById('lang2-name');
+        const participant1LangBadge = document.getElementById('participant1-lang-badge');
+        const participant2LangBadge = document.getElementById('participant2-lang-badge');
+
+        const participant1Lang = document.getElementById('participant1-lang')?.value || 'ar';
+        const participant2Lang = document.getElementById('participant2-lang')?.value || 'en';
+
+        if (lang1Name) lang1Name.textContent = this.getLanguageName(participant1Lang);
+        if (lang2Name) lang2Name.textContent = this.getLanguageName(participant2Lang);
+        if (participant1LangBadge) participant1LangBadge.textContent = this.getLanguageName(participant1Lang);
+        if (participant2LangBadge) participant2LangBadge.textContent = this.getLanguageName(participant2Lang);
     }
 
-    loadConversationHistory() {
-        this.updateHistoryDisplay();
-    }
-
-    updateHistoryDisplay() {
-        const historyList = document.getElementById('history-list');
-        if (!historyList) return;
-
-        const history = this.getConversationHistory();
-        
-        if (history.length === 0) {
-            historyList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-history"></i>
-                    <p>لا توجد محادثات سابقة</p>
-                </div>
-            `;
-            return;
-        }
-
-        const html = history.slice(0, 10).map(conversation => `
-            <div class="history-item" onclick="conversationManager.loadConversation(${conversation.id})">
-                <div class="history-item-header">
-                    <div class="history-meta">
-                        <span class="history-languages">
-                            ${this.getLanguageName(conversation.participant1Lang)} → ${this.getLanguageName(conversation.participant2Lang)}
-                        </span>
-                        <span class="history-mode">${conversation.messages.length} رسالة</span>
-                    </div>
-                    <span class="history-date">${new Date(conversation.timestamp).toLocaleDateString('ar-SA')}</span>
-                </div>
-                <div class="history-preview">
-                    ${conversation.messages[0]?.original || 'محادثة فارغة'}
-                </div>
-            </div>
-        `).join('');
-
-        historyList.innerHTML = html;
-    }
-
-    loadConversation(id) {
-        const history = this.getConversationHistory();
-        const conversation = history.find(c => c.id === id);
-        
-        if (conversation) {
-            // Load conversation data
-            this.participant1Lang = conversation.participant1Lang;
-            this.participant2Lang = conversation.participant2Lang;
-            this.conversationHistory = conversation.messages;
+    updateInputPlaceholder(participant) {
+        const input = document.getElementById('chat-input');
+        if (input) {
+            const participantLang = participant === '1' ? 
+                document.getElementById('participant1-lang')?.value : 
+                document.getElementById('participant2-lang')?.value;
             
-            // Update UI
-            this.updateLanguageIndicators();
-            this.displayConversationMessages();
-            
-            this.showMessage('تم تحميل المحادثة', 'success');
-        }
-    }
-
-    displayConversationMessages() {
-        // Display messages in appropriate mode
-        if (this.currentMode === 'text') {
-            const messagesContainer = document.getElementById('chat-messages');
-            if (messagesContainer) {
-                messagesContainer.innerHTML = '';
-                
-                this.conversationHistory.forEach(msg => {
-                    this.addMessageToChat(msg.original, msg.participant);
-                    this.addMessageToChat(msg.translation, msg.participant === 1 ? 2 : 1);
-                });
+            if (participantLang === 'ar') {
+                input.placeholder = 'اكتب رسالتك هنا...';
+            } else {
+                input.placeholder = 'Type your message here...';
             }
         }
     }
 
-    updateLanguageIndicators() {
-        const lang1Name = document.getElementById('lang1-name');
-        const lang2Name = document.getElementById('lang2-name');
-        const participant1Name = document.getElementById('participant1-name');
-        const participant2Name = document.getElementById('participant2-name');
-        const participant1LangBadge = document.getElementById('participant1-lang-badge');
-        const participant2LangBadge = document.getElementById('participant2-lang-badge');
-
-        if (lang1Name) lang1Name.textContent = this.getLanguageName(this.participant1Lang);
-        if (lang2Name) lang2Name.textContent = this.getLanguageName(this.participant2Lang);
-        if (participant1LangBadge) participant1LangBadge.textContent = this.getLanguageName(this.participant1Lang);
-        if (participant2LangBadge) participant2LangBadge.textContent = this.getLanguageName(this.participant2Lang);
-    }
-
-    updateRecordingUI(participant, isRecording) {
+    updateRecordingUI(participantId, isRecording) {
+        const participant = participantId.replace('participant', '');
         const btn = document.getElementById(`participant${participant}-voice-btn`);
         const indicator = document.getElementById(`participant${participant}-indicator`);
         
@@ -707,127 +446,71 @@ class ConversationManager {
         }
     }
 
-    clearConversationUI() {
-        // Clear transcriptions
-        const transcription1 = document.getElementById('participant1-transcription');
-        const transcription2 = document.getElementById('participant2-transcription');
-        
-        if (transcription1) {
-            transcription1.innerHTML = `
-                <div class="placeholder">
-                    <i class="fas fa-microphone-slash"></i>
-                    <p>اضغط على زر التحدث وابدأ بالحديث</p>
-                </div>
-            `;
-        }
-        
-        if (transcription2) {
-            transcription2.innerHTML = `
-                <div class="placeholder">
-                    <i class="fas fa-microphone-slash"></i>
-                    <p>Press the speak button and start talking</p>
-                </div>
-            `;
-        }
+    // Event Handlers
+    handleConversationStarted(event) {
+        console.log('Conversation started:', event);
+        this.updateConversationUI(true);
+    }
 
-        // Clear chat messages
-        const chatMessages = document.getElementById('chat-messages');
-        if (chatMessages) {
-            chatMessages.innerHTML = `
-                <div class="welcome-message">
-                    <i class="fas fa-comments"></i>
-                    <p>ابدأ المحادثة النصية</p>
-                </div>
-            `;
-        }
+    handleConversationEnded(event) {
+        console.log('Conversation ended:', event);
+        this.updateConversationUI(false);
+    }
 
-        // Clear timeline
-        const timeline = document.getElementById('conversation-timeline');
-        if (timeline) {
-            timeline.innerHTML = `
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <i class="fas fa-info-circle"></i>
-                        <p>يمكنك استخدام الصوت والنص معاً في هذا الوضع</p>
-                    </div>
-                </div>
-            `;
+    handleTranslationCompleted(event) {
+        console.log('Translation completed:', event);
+        // The conversation service will handle UI updates
+    }
+
+    handleTranslationError(event) {
+        console.error('Translation error:', event);
+        this.showMessage('خطأ في الترجمة: ' + event.error, 'error');
+    }
+
+    updateConversationUI(isActive) {
+        const setupInterface = document.getElementById('conversation-setup');
+        const conversationInterface = document.getElementById('conversation-interface');
+        
+        if (isActive) {
+            setupInterface.style.display = 'none';
+            conversationInterface.style.display = 'block';
+        } else {
+            setupInterface.style.display = 'block';
+            conversationInterface.style.display = 'none';
         }
     }
 
-    // API Methods
-    async callTranslationAPI(text, source, target) {
-        // Simulate API call
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const translations = {
-                    'en': 'This is a sample translation to English.',
-                    'ar': 'هذه ترجمة عينة إلى العربية.',
-                    'fr': 'Ceci est une traduction d\'exemple en français.',
-                    'es': 'Esta es una traducción de ejemplo al español.',
-                    'de': 'Dies ist eine Beispielübersetzung ins Deutsche.'
-                };
-                
-                resolve(translations[target] || 'Translation not available for this language.');
-            }, 1000);
-        });
-    }
-
-    speakText(text, lang) {
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = this.getSpeechLangCode(lang);
-            utterance.rate = 0.9;
-            utterance.pitch = 1;
-            utterance.volume = 1;
-            
-            window.speechSynthesis.speak(utterance);
+    // History Management
+    async loadConversationHistory() {
+        try {
+            await this.conversationService.loadConversationHistory();
+        } catch (error) {
+            console.error('Error loading conversation history:', error);
         }
     }
 
     // Utility Methods
     getLanguageName(code) {
         const languages = {
-            'ar': 'العربية',
-            'en': 'English',
-            'fr': 'Français',
-            'es': 'Español',
-            'de': 'Deutsch',
-            'it': 'Italiano',
-            'pt': 'Português',
-            'ru': 'Русский',
-            'zh': '中文',
-            'ja': '日本語',
-            'ko': '한국어'
+            'ar': 'العربية', 'en': 'English', 'fr': 'Français', 'es': 'Español',
+            'de': 'Deutsch', 'it': 'Italiano', 'pt': 'Português', 'ru': 'Русский',
+            'zh': '中文', 'ja': '日本語', 'ko': '한국어', 'hi': 'हिन्दी',
+            'tr': 'Türkçe', 'nl': 'Nederlands', 'sv': 'Svenska', 'no': 'Norsk',
+            'da': 'Dansk', 'fi': 'Suomi', 'pl': 'Polski', 'cs': 'Čeština',
+            'hu': 'Magyar', 'ro': 'Română', 'bg': 'Български', 'hr': 'Hrvatski',
+            'sk': 'Slovenčina', 'sl': 'Slovenščina', 'et': 'Eesti', 'lv': 'Latviešu',
+            'lt': 'Lietuvių', 'el': 'Ελληνικά', 'he': 'עברית', 'fa': 'فارسی',
+            'ur': 'اردو', 'bn': 'বাংলা', 'ta': 'தமிழ்', 'te': 'తెలుగు',
+            'ml': 'മലയാളം', 'kn': 'ಕನ್ನಡ', 'gu': 'ગુજરાતી', 'pa': 'ਪੰਜਾਬੀ',
+            'mr': 'मराठी', 'ne': 'नेपाली', 'si': 'සිංහල', 'my': 'မြန်မာ',
+            'th': 'ไทย', 'vi': 'Tiếng Việt', 'id': 'Bahasa Indonesia', 'ms': 'Bahasa Melayu',
+            'tl': 'Filipino', 'sw': 'Kiswahili', 'am': 'አማርኛ', 'yo': 'Yorùbá',
+            'ig': 'Igbo', 'ha': 'Hausa', 'zu': 'IsiZulu', 'af': 'Afrikaans',
+            'sq': 'Shqip', 'mk': 'Македонски', 'sr': 'Српски', 'bs': 'Bosanski',
+            'mt': 'Malti', 'is': 'Íslenska', 'ga': 'Gaeilge', 'cy': 'Cymraeg',
+            'eu': 'Euskera', 'ca': 'Català', 'gl': 'Galego'
         };
         return languages[code] || code;
-    }
-
-    getSpeechLangCode(langCode) {
-        const speechCodes = {
-            'ar': 'ar-SA',
-            'en': 'en-US',
-            'fr': 'fr-FR',
-            'es': 'es-ES',
-            'de': 'de-DE',
-            'it': 'it-IT',
-            'pt': 'pt-PT',
-            'ru': 'ru-RU',
-            'zh': 'zh-CN',
-            'ja': 'ja-JP',
-            'ko': 'ko-KR'
-        };
-        return speechCodes[langCode] || 'en-US';
-    }
-
-    getConversationHistory() {
-        try {
-            const stored = localStorage.getItem('conversation-history');
-            return stored ? JSON.parse(stored) : [];
-        } catch (error) {
-            console.error('Error loading conversation history:', error);
-            return [];
-        }
     }
 
     showMessage(message, type = 'info') {
@@ -838,13 +521,32 @@ class ConversationManager {
             <i class="fas fa-${this.getMessageIcon(type)}"></i>
             <span>${message}</span>
         `;
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            padding: var(--spacing-4);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            max-width: 400px;
+            animation: slideInRight 0.3s ease-out;
+            background: white;
+            border-left: 4px solid var(--${type === 'success' ? 'success' : type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'primary'}-color);
+        `;
         
         // Add to page
         document.body.appendChild(messageEl);
         
         // Auto remove after 5 seconds
         setTimeout(() => {
-            messageEl.remove();
+            messageEl.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => {
+                messageEl.remove();
+            }, 300);
         }, 5000);
     }
 
@@ -861,7 +563,33 @@ class ConversationManager {
 
 // Initialize conversation manager
 let conversationManager;
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     conversationManager = new ConversationManager();
 });
 
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+`;
+document.head.appendChild(style);
