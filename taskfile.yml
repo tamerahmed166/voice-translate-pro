@@ -1,0 +1,113 @@
+version: '3'
+
+tasks:
+  default:
+    desc: "Show available tasks"
+    cmds:
+      - task --list
+
+  install:
+    desc: "Install dependencies"
+    cmds:
+      - npm install
+
+  build:
+    desc: "Build the application"
+    cmds:
+      - npm run build
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - npm test
+
+  lint:
+    desc: "Run linter"
+    cmds:
+      - npm run lint
+
+  format:
+    desc: "Format code"
+    cmds:
+      - npm run format
+
+  clean:
+    desc: "Clean build artifacts"
+    cmds:
+      - rm -rf dist/
+      - rm -rf build/
+      - rm -rf node_modules/
+      - rm -rf coverage/
+
+  dev:
+    desc: "Start development server"
+    cmds:
+      - npm run dev
+
+  prod:
+    desc: "Start production server"
+    cmds:
+      - npm start
+
+  deploy:
+    desc: "Deploy to production"
+    cmds:
+      - ./deploy.sh
+
+  docker:
+    desc: "Build Docker image"
+    cmds:
+      - docker build -t voice-translator-pro .
+
+  docker-compose:
+    desc: "Start with Docker Compose"
+    cmds:
+      - docker-compose up -d
+
+  k8s:
+    desc: "Deploy to Kubernetes"
+    cmds:
+      - kubectl apply -f kubernetes.yaml
+
+  terraform:
+    desc: "Deploy with Terraform"
+    cmds:
+      - terraform init
+      - terraform plan
+      - terraform apply
+
+  ansible:
+    desc: "Deploy with Ansible"
+    cmds:
+      - ansible-playbook -i inventory ansible.yml
+
+  dev-setup:
+    desc: "Development environment setup"
+    cmds:
+      - task: install
+      - echo "Development environment setup complete!"
+
+  prod-setup:
+    desc: "Production environment setup"
+    cmds:
+      - task: install
+      - task: build
+      - echo "Production environment setup complete!"
+
+  full-deploy:
+    desc: "Full deployment"
+    cmds:
+      - task: clean
+      - task: install
+      - task: build
+      - task: test
+      - task: docker
+      - task: docker-compose
+      - echo "Full deployment complete!"
+
+  quick-start:
+    desc: "Quick start"
+    cmds:
+      - task: install
+      - task: dev
+      - echo "Quick start complete! Application running at http://localhost:3000"

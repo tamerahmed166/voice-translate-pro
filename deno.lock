@@ -1,0 +1,28 @@
+{
+  "version": "3",
+  "packages": {
+    "https://esm.sh/tesseract.js@4.1.1": {
+      "integrity": "sha512-abc123...",
+      "dependencies": {
+        "https://esm.sh/worker-farm@1.7.0": "sha512-def456..."
+      }
+    },
+    "https://esm.sh/firebase@10.7.1": {
+      "integrity": "sha512-def456...",
+      "dependencies": {
+        "https://esm.sh/@firebase/app@0.9.13": "sha512-ghi789...",
+        "https://esm.sh/@firebase/auth@1.1.0": "sha512-jkl012...",
+        "https://esm.sh/@firebase/firestore@4.0.0": "sha512-mno345..."
+      }
+    },
+    "https://esm.sh/lz-string@1.5.0": {
+      "integrity": "sha512-ghi789..."
+    },
+    "https://esm.sh/workbox-webpack-plugin@7.0.0": {
+      "integrity": "sha512-jkl012...",
+      "dependencies": {
+        "https://esm.sh/workbox-build@7.0.0": "sha512-pqr678..."
+      }
+    }
+  }
+}

@@ -1,0 +1,136 @@
+[package]
+name = "voice-translator-pro"
+version = "1.0.0"
+edition = "2021"
+authors = ["Voice Translator Team"]
+description = "تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة"
+license = "MIT"
+repository = "https://github.com/your-username/voice-translator-pro.git"
+homepage = "https://your-username.github.io/voice-translator-pro/"
+
+[dependencies]
+# Web framework
+actix-web = "4.4.0"
+tokio = { version = "1.0", features = ["full"] }
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Database
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+
+# Authentication
+jsonwebtoken = "9.2.0"
+argon2 = "0.5.0"
+
+# Logging
+log = "0.4"
+env_logger = "0.10"
+
+# Configuration
+config = "0.13"
+dotenv = "0.15"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Async runtime
+futures = "0.3"
+
+# Compression
+flate2 = "1.0"
+
+# UUID generation
+uuid = { version = "1.0", features = ["v4", "serde"] }
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# File system
+walkdir = "2.3"
+
+# Image processing
+image = "0.24"
+
+# Text processing
+regex = "1.10"
+
+# Caching
+moka = "0.12"
+
+# Metrics
+prometheus = "0.13"
+
+# Health checks
+health = "0.4"
+
+[dev-dependencies]
+# Testing
+tokio-test = "0.4"
+mockito = "1.2"
+tempfile = "3.8"
+
+# Code coverage
+cargo-tarpaulin = "0.25"
+
+# Linting
+clippy = "0.1"
+
+# Formatting
+rustfmt = "0.1"
+
+[build-dependencies]
+# Build scripts
+build = "0.1"
+
+[profile.release]
+# Optimize for size
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+# Development optimizations
+opt-level = 0
+debug = true
+overflow-checks = true
+
+[workspace]
+members = [
+    ".",
+    "crates/voice-translator-core",
+    "crates/voice-translator-api",
+    "crates/voice-translator-web"
+]
+
+[workspace.dependencies]
+# Shared dependencies
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+config = "0.13"
+dotenv = "0.15"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.11", features = ["json"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+jsonwebtoken = "9.2.0"
+argon2 = "0.5.0"
+flate2 = "1.0"
+walkdir = "2.3"
+image = "0.24"
+regex = "1.10"
+moka = "0.12"
+prometheus = "0.13"
+health = "0.4"

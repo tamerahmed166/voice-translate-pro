@@ -1,0 +1,103 @@
+---
+# Ansible playbook for Voice Translator Pro
+# Infrastructure automation
+
+- name: Deploy Voice Translator Pro
+  hosts: all
+  become: yes
+  vars:
+    app_name: voice-translator-pro
+    app_port: 3000
+    app_user: www-data
+    app_group: www-data
+    app_dir: /var/www/voice-translator-pro
+    nginx_config: /etc/nginx/sites-available/voice-translator-pro
+    nginx_enabled: /etc/nginx/sites-enabled/voice-translator-pro
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - nginx
+          - nodejs
+          - npm
+          - git
+          - curl
+          - wget
+          - unzip
+        state: present
+
+    - name: Create application directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_group }}"
+        mode: '0755'
+
+    - name: Clone repository
+      git:
+        repo: "{{ repository_url }}"
+        dest: "{{ app_dir }}"
+        version: "{{ branch }}"
+        update: yes
+
+    - name: Install dependencies
+      npm:
+        path: "{{ app_dir }}"
+        state: present
+
+    - name: Build application
+      npm:
+        path: "{{ app_dir }}"
+        state: present
+        production: yes
+
+    - name: Configure Nginx
+      template:
+        src: nginx.conf.j2
+        dest: "{{ nginx_config }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Enable Nginx site
+      file:
+        src: "{{ nginx_config }}"
+        dest: "{{ nginx_enabled }}"
+        state: link
+      notify: restart nginx
+
+    - name: Remove default Nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Start and enable Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Configure firewall
+      ufw:
+        rule: allow
+        port: "{{ app_port }}"
+        proto: tcp
+
+    - name: Set up SSL certificate
+      command: certbot --nginx -d "{{ domain_name }}" --non-interactive --agree-tos --email "{{ ssl_email }}"
+      when: ssl_email is defined
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

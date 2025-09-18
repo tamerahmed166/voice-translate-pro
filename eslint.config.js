@@ -1,0 +1,71 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true
+  },
+  extends: [
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module'
+  },
+  rules: {
+    'no-unused-vars': 'warn',
+    'no-console': 'off',
+    'no-debugger': 'warn',
+    'no-undef': 'error',
+    'no-unreachable': 'error',
+    'no-duplicate-case': 'error',
+    'no-empty': 'warn',
+    'no-extra-semi': 'error',
+    'no-func-assign': 'error',
+    'no-invalid-regexp': 'error',
+    'no-irregular-whitespace': 'error',
+    'no-obj-calls': 'error',
+    'no-sparse-arrays': 'error',
+    'no-unexpected-multiline': 'error',
+    'use-isnan': 'error',
+    'valid-typeof': 'error',
+    'curly': 'error',
+    'eqeqeq': 'error',
+    'no-alert': 'warn',
+    'no-caller': 'error',
+    'no-eval': 'error',
+    'no-extend-native': 'error',
+    'no-extra-bind': 'error',
+    'no-fallthrough': 'error',
+    'no-floating-decimal': 'error',
+    'no-implied-eval': 'error',
+    'no-iterator': 'error',
+    'no-labels': 'error',
+    'no-lone-blocks': 'error',
+    'no-loop-func': 'error',
+    'no-multi-spaces': 'error',
+    'no-multi-str': 'error',
+    'no-native-reassign': 'error',
+    'no-new': 'error',
+    'no-new-func': 'error',
+    'no-new-wrappers': 'error',
+    'no-octal': 'error',
+    'no-octal-escape': 'error',
+    'no-param-reassign': 'error',
+    'no-proto': 'error',
+    'no-return-assign': 'error',
+    'no-script-url': 'error',
+    'no-self-compare': 'error',
+    'no-sequences': 'error',
+    'no-throw-literal': 'error',
+    'no-with': 'error',
+    'radix': 'error',
+    'vars-on-top': 'error',
+    'wrap-iife': 'error',
+    'yoda': 'error'
+  },
+  globals: {
+    'Tesseract': 'readonly',
+    'firebase': 'readonly',
+    'LZString': 'readonly'
+  }
+};

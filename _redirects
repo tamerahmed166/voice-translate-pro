@@ -1,0 +1,18 @@
+# Redirects for Voice Translator Pro
+# إعادة التوجيه لمترجم الصوت الذكي
+
+# Redirect old URLs to new ones
+/old-translate /translate.html 301
+/old-conversation /dual-conversation.html 301
+/old-smart /smart-translate.html 301
+
+# Redirect common misspellings
+/translation /translate.html 301
+/conversation /dual-conversation.html 301
+/smart /smart-translate.html 301
+
+# Redirect root to index
+/ /index.html 200
+
+# Handle SPA routing for GitHub Pages
+/* /index.html 200

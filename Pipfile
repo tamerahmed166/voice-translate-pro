@@ -1,0 +1,76 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = ">=0.104.1"
+uvicorn = {extras = ["standard"], version = ">=0.24.0"}
+gunicorn = ">=21.2.0"
+httpx = ">=0.25.2"
+requests = ">=2.31.0"
+sqlalchemy = ">=2.0.23"
+alembic = ">=1.12.1"
+psycopg2-binary = ">=2.9.9"
+redis = ">=5.0.1"
+python-jose = {extras = ["cryptography"], version = ">=3.3.0"}
+passlib = {extras = ["bcrypt"], version = ">=1.7.4"}
+python-multipart = ">=0.0.6"
+pydantic = ">=2.5.0"
+pydantic-settings = ">=2.1.0"
+python-dotenv = ">=1.0.0"
+loguru = ">=0.7.2"
+Pillow = ">=10.1.0"
+opencv-python = ">=4.8.1.78"
+nltk = ">=3.8.1"
+spacy = ">=3.7.2"
+transformers = ">=4.36.0"
+torch = ">=2.1.1"
+torchaudio = ">=2.1.1"
+torchvision = ">=0.16.1"
+librosa = ">=0.10.1"
+soundfile = ">=0.12.1"
+googletrans = ">=4.0.0rc1"
+deep-translator = ">=1.11.4"
+pytesseract = ">=0.3.10"
+easyocr = ">=1.7.0"
+diskcache = ">=5.6.3"
+celery = ">=5.3.4"
+kombu = ">=5.3.4"
+websockets = ">=12.0"
+aiofiles = ">=23.2.1"
+python-dateutil = ">=2.8.2"
+click = ">=8.1.7"
+rich = ">=13.7.0"
+typer = ">=0.9.0"
+
+[dev-packages]
+pytest = ">=7.4.3"
+pytest-asyncio = ">=0.21.1"
+pytest-cov = ">=4.1.0"
+black = ">=23.11.0"
+isort = ">=5.12.0"
+flake8 = ">=6.1.0"
+mypy = ">=1.7.1"
+mkdocs = ">=1.5.3"
+mkdocs-material = ">=9.4.8"
+prometheus-client = ">=0.19.0"
+structlog = ">=23.2.0"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+start = "uvicorn voice_translator_pro.main:app --host 0.0.0.0 --port 8000"
+dev = "uvicorn voice_translator_pro.main:app --host 0.0.0.0 --port 8000 --reload"
+test = "pytest"
+lint = "flake8 src/ tests/"
+format = "black src/ tests/"
+type-check = "mypy src/"
+build = "python setup.py sdist bdist_wheel"
+install = "pip install -e ."
+clean = "rm -rf build/ dist/ *.egg-info/ .pytest_cache/ .coverage htmlcov/"
+
+[pipenv]
+allow_prereleases = false
+install_editable = true

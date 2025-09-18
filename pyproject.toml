@@ -1,0 +1,194 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/voice_translator_pro/_version.py"
+
+[project]
+name = "voice-translator-pro"
+dynamic = ["version"]
+description = "تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Voice Translator Team", email = "team@voice-translator-pro.com"}
+]
+keywords = ["translation", "voice", "speech", "ocr", "pwa", "arabic", "multilingual"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "gunicorn>=21.2.0",
+    "httpx>=0.25.2",
+    "requests>=2.31.0",
+    "sqlalchemy>=2.0.23",
+    "alembic>=1.12.1",
+    "psycopg2-binary>=2.9.9",
+    "redis>=5.0.1",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-multipart>=0.0.6",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "python-dotenv>=1.0.0",
+    "loguru>=0.7.2",
+    "Pillow>=10.1.0",
+    "opencv-python>=4.8.1.78",
+    "nltk>=3.8.1",
+    "spacy>=3.7.2",
+    "transformers>=4.36.0",
+    "torch>=2.1.1",
+    "torchaudio>=2.1.1",
+    "torchvision>=0.16.1",
+    "librosa>=0.10.1",
+    "soundfile>=0.12.1",
+    "googletrans>=4.0.0rc1",
+    "deep-translator>=1.11.4",
+    "pytesseract>=0.3.10",
+    "easyocr>=1.7.0",
+    "diskcache>=5.6.3",
+    "celery>=5.3.4",
+    "kombu>=5.3.4",
+    "websockets>=12.0",
+    "aiofiles>=23.2.1",
+    "python-dateutil>=2.8.2",
+    "click>=8.1.7",
+    "rich>=13.7.0",
+    "typer>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.21.1",
+    "pytest-cov>=4.1.0",
+    "black>=23.11.0",
+    "isort>=5.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.7.1",
+    "mkdocs>=1.5.3",
+    "mkdocs-material>=9.4.8",
+    "prometheus-client>=0.19.0",
+    "structlog>=23.2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/voice-translator-pro"
+Documentation = "https://your-username.github.io/voice-translator-pro/"
+Repository = "https://github.com/your-username/voice-translator-pro.git"
+Issues = "https://github.com/your-username/voice-translator-pro/issues"
+
+[project.scripts]
+voice-translator = "voice_translator_pro.cli:main"
+
+[project.gui-scripts]
+voice-translator-gui = "voice_translator_pro.gui:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["voice_translator_pro*"]
+
+[tool.setuptools.package-data]
+voice_translator_pro = ["*.txt", "*.md", "*.yml", "*.yaml", "*.json", "*.toml", "*.cfg", "*.ini"]
+
+[tool.setuptools.data-files]
+"share/voice-translator-pro" = ["README.md", "LICENSE", "requirements.txt"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "*.pyo", "*.pyd", "__pycache__", "*.so", "*.dylib", "*.dll"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["voice_translator_pro"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=voice_translator_pro",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+
+[tool.coverage.run]
+source = ["src/voice_translator_pro"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/migrations/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

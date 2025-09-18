@@ -4,6 +4,9 @@ Allow: /
 # Sitemap
 Sitemap: https://your-username.github.io/voice-translator-pro/sitemap.xml
 
+# Crawl-delay
+Crawl-delay: 1
+
 # Disallow crawling of certain files
 Disallow: /assets/
 Disallow: /*.js
@@ -11,3 +14,7 @@ Disallow: /*.css
 Disallow: /config.js
 Disallow: /sw.js
 Disallow: /manifest.json
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /test-*.js
+Disallow: /test-*.html

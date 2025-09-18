@@ -1,0 +1,14 @@
+name: voice-translator-pro
+runtime: nodejs
+description: Voice Translator Pro - مترجم الصوت الذكي
+template:
+  config:
+    aws:region:
+      description: The AWS region to deploy to
+      default: us-east-1
+    domain:
+      description: The domain name for the application
+      default: voice-translator-pro.example.com
+    environment:
+      description: The environment name
+      default: production

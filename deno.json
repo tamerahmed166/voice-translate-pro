@@ -1,0 +1,40 @@
+{
+  "name": "voice-translator-pro",
+  "version": "1.0.0",
+  "description": "تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة",
+  "main": "script.js",
+  "type": "module",
+  "imports": {
+    "tesseract.js": "https://esm.sh/tesseract.js@4.1.1",
+    "firebase": "https://esm.sh/firebase@10.7.1",
+    "lz-string": "https://esm.sh/lz-string@1.5.0",
+    "workbox-webpack-plugin": "https://esm.sh/workbox-webpack-plugin@7.0.0"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-write script.js",
+    "dev": "deno run --allow-net --allow-read --allow-write --watch script.js",
+    "build": "deno bundle script.js dist/bundle.js",
+    "test": "deno test --allow-net --allow-read --allow-write",
+    "lint": "deno lint",
+    "format": "deno fmt",
+    "check": "deno check script.js"
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 80,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "proseWrap": "preserve"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  }
+}

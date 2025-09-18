@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - الصفحة غير موجودة | مترجم الصوت الذكي</title>
+    <meta name="description" content="الصفحة المطلوبة غير موجودة. عد إلى الصفحة الرئيسية لمترجم الصوت الذكي">
+    <meta name="theme-color" content="#4F46E5">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .error-content {
+            text-align: center;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .error-icon {
+            font-size: 80px;
+            color: #4F46E5;
+            margin-bottom: 20px;
+        }
+        
+        .error-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: 10px;
+        }
+        
+        .error-subtitle {
+            font-size: 24px;
+            color: #6B7280;
+            margin-bottom: 20px;
+        }
+        
+        .error-message {
+            font-size: 16px;
+            color: #6B7280;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3730A3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #4F46E5;
+            border: 2px solid #4F46E5;
+        }
+        
+        .btn-outline:hover {
+            background: #4F46E5;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .error-content {
+                padding: 40px 20px;
+            }
+            
+            .error-title {
+                font-size: 36px;
+            }
+            
+            .error-subtitle {
+                font-size: 20px;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h1 class="error-title">404</h1>
+            <h2 class="error-subtitle">الصفحة غير موجودة</h2>
+            <p class="error-message">
+                عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها إلى مكان آخر.
+                <br>
+                يمكنك العودة إلى الصفحة الرئيسية أو استخدام الترجمة مباشرة.
+            </p>
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    الصفحة الرئيسية
+                </a>
+                <a href="/translate.html" class="btn btn-outline">
+                    <i class="fas fa-translate"></i>
+                    ابدأ الترجمة
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto redirect to home page after 10 seconds
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 10000);
+        
+        // Log 404 error for analytics
+        console.log('404 Error: Page not found -', window.location.href);
+    </script>
+</body>
+</html>
