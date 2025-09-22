@@ -8,7 +8,7 @@ import { ocrService } from './ocr-service.js';
 import { translationAPIsService } from './translation-apis.js';
 import { performanceOptimizer } from './performance-optimizer.js';
 import { conversationService } from './conversation-service.js';
-import { groupConversationService } from './group-conversation-service.js';
+import { APIService } from './api-service.js';
 
 export class AppConfig {
     constructor() {
@@ -20,7 +20,7 @@ export class AppConfig {
             translation: translationAPIsService,
             performance: performanceOptimizer,
             conversation: conversationService,
-            groupConversation: groupConversationService
+            api: new APIService(),
         };
         
         this.settings = this.loadSettings();

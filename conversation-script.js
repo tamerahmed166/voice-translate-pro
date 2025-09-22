@@ -9,7 +9,15 @@ class ConversationManager {
         this.conversationService = conversationService;
         this.appConfig = appConfig;
         this.currentMode = 'voice';
+        this.currentType = 'dual';
         this.isInitialized = false;
+        this.isVideoEnabled = false;
+        this.isAudioEnabled = true;
+        this.isScreenSharing = false;
+        this.participants = [];
+        this.localStream = null;
+        this.remoteStreams = new Map();
+        this.translationEnabled = true;
         
         this.init();
     }
@@ -52,6 +60,21 @@ class ConversationManager {
                 this.startConversation();
             });
         }
+        
+        // Conversation type selection
+        this.setupConversationTypeListeners();
+        
+        // Media options
+        this.setupMediaOptionsListeners();
+        
+        // Mode selection
+        this.setupModeSelectionListeners();
+        
+        // Video conference controls
+        this.setupVideoConferenceListeners();
+        
+        // Group management
+        this.setupGroupManagementListeners();
 
         // End conversation
         const endBtn = document.getElementById('end-conversation');
@@ -558,6 +581,566 @@ class ConversationManager {
             'info': 'info-circle'
         };
         return icons[type] || 'info-circle';
+    }
+    
+    // New Enhanced Features
+    
+    setupConversationTypeListeners() {
+        const typeRadios = document.querySelectorAll('input[name="conversation-type"]');
+        typeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.currentType = e.target.value;
+                this.updateConversationTypeUI();
+            });
+        });
+    }
+    
+    setupMediaOptionsListeners() {
+        const videoCheckbox = document.getElementById('enable-video');
+        const audioCheckbox = document.getElementById('enable-audio');
+        const screenShareCheckbox = document.getElementById('enable-screen-share');
+        
+        if (videoCheckbox) {
+            videoCheckbox.addEventListener('change', (e) => {
+                this.isVideoEnabled = e.target.checked;
+                this.updateMediaOptions();
+            });
+        }
+        
+        if (audioCheckbox) {
+            audioCheckbox.addEventListener('change', (e) => {
+                this.isAudioEnabled = e.target.checked;
+                this.updateMediaOptions();
+            });
+        }
+        
+        if (screenShareCheckbox) {
+            screenShareCheckbox.addEventListener('change', (e) => {
+                this.isScreenSharing = e.target.checked;
+                this.updateMediaOptions();
+            });
+        }
+    }
+    
+    setupModeSelectionListeners() {
+        const modeRadios = document.querySelectorAll('input[name="conversation-mode"]');
+        modeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                this.currentMode = e.target.value;
+                this.updateConversationMode();
+            });
+        });
+    }
+    
+    setupVideoConferenceListeners() {
+        // Video toggle
+        const videoBtn = document.getElementById('toggle-video');
+        if (videoBtn) {
+            videoBtn.addEventListener('click', () => {
+                this.toggleVideo();
+            });
+        }
+        
+        // Audio toggle
+        const audioBtn = document.getElementById('toggle-audio');
+        if (audioBtn) {
+            audioBtn.addEventListener('click', () => {
+                this.toggleAudio();
+            });
+        }
+        
+        // Screen share toggle
+        const screenShareBtn = document.getElementById('toggle-screen-share');
+        if (screenShareBtn) {
+            screenShareBtn.addEventListener('click', () => {
+                this.toggleScreenShare();
+            });
+        }
+        
+        // Translation toggle
+        const translationBtn = document.getElementById('toggle-translation');
+        if (translationBtn) {
+            translationBtn.addEventListener('click', () => {
+                this.toggleTranslation();
+            });
+        }
+    }
+    
+    setupGroupManagementListeners() {
+        // Invite participants
+        const inviteBtn = document.getElementById('invite-participants');
+        if (inviteBtn) {
+            inviteBtn.addEventListener('click', () => {
+                this.showInviteDialog();
+            });
+        }
+        
+        // Conference settings
+        const settingsBtn = document.getElementById('conference-settings');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.showConferenceSettings();
+            });
+        }
+    }
+    
+    updateConversationTypeUI() {
+        const groupSetup = document.getElementById('group-setup');
+        if (groupSetup) {
+            if (this.currentType === 'group') {
+                groupSetup.style.display = 'block';
+            } else {
+                groupSetup.style.display = 'none';
+            }
+        }
+        
+        // Update button text
+        const startBtn = document.getElementById('start-conversation');
+        if (startBtn) {
+            const buttonText = this.currentType === 'group' ? 'بدء المحادثة الجماعية' : 'بدء المحادثة الثنائية';
+            startBtn.innerHTML = `<i class="fas fa-play"></i> ${buttonText}`;
+        }
+    }
+    
+    updateMediaOptions() {
+        console.log('Media options updated:', {
+            video: this.isVideoEnabled,
+            audio: this.isAudioEnabled,
+            screenShare: this.isScreenSharing
+        });
+    }
+    
+    updateConversationMode() {
+        // Update mode buttons
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        modeBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.mode === this.currentMode) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Show/hide appropriate mode sections
+        const modeSections = document.querySelectorAll('.conversation-mode');
+        modeSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === `${this.currentMode}-mode`) {
+                section.classList.add('active');
+            }
+        });
+    }
+    
+    async toggleVideo() {
+        try {
+            if (this.isVideoEnabled) {
+                // Turn off video
+                if (this.localStream) {
+                    this.localStream.getVideoTracks().forEach(track => {
+                        track.enabled = false;
+                    });
+                }
+                this.isVideoEnabled = false;
+                this.updateVideoButton(false);
+            } else {
+                // Turn on video
+                await this.startVideo();
+                this.isVideoEnabled = true;
+                this.updateVideoButton(true);
+            }
+        } catch (error) {
+            console.error('Error toggling video:', error);
+            this.showNotification('خطأ', 'فشل في تشغيل الفيديو', 'error');
+        }
+    }
+    
+    async toggleAudio() {
+        try {
+            if (this.isAudioEnabled) {
+                // Mute audio
+                if (this.localStream) {
+                    this.localStream.getAudioTracks().forEach(track => {
+                        track.enabled = false;
+                    });
+                }
+                this.isAudioEnabled = false;
+                this.updateAudioButton(false);
+            } else {
+                // Unmute audio
+                if (this.localStream) {
+                    this.localStream.getAudioTracks().forEach(track => {
+                        track.enabled = true;
+                    });
+                }
+                this.isAudioEnabled = true;
+                this.updateAudioButton(true);
+            }
+        } catch (error) {
+            console.error('Error toggling audio:', error);
+            this.showNotification('خطأ', 'فشل في تشغيل الصوت', 'error');
+        }
+    }
+    
+    async toggleScreenShare() {
+        try {
+            if (this.isScreenSharing) {
+                // Stop screen sharing
+                await this.stopScreenShare();
+                this.isScreenSharing = false;
+                this.updateScreenShareButton(false);
+            } else {
+                // Start screen sharing
+                await this.startScreenShare();
+                this.isScreenSharing = true;
+                this.updateScreenShareButton(true);
+            }
+        } catch (error) {
+            console.error('Error toggling screen share:', error);
+            this.showNotification('خطأ', 'فشل في مشاركة الشاشة', 'error');
+        }
+    }
+    
+    toggleTranslation() {
+        this.translationEnabled = !this.translationEnabled;
+        this.updateTranslationButton();
+        
+        const message = this.translationEnabled ? 'تم تفعيل الترجمة الفورية' : 'تم إيقاف الترجمة الفورية';
+        this.showNotification('إشعار', message, 'info');
+    }
+    
+    async startVideo() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: this.isAudioEnabled
+            });
+            
+            this.localStream = stream;
+            
+            // Display local video
+            const localVideo = document.getElementById('local-video');
+            if (localVideo) {
+                localVideo.srcObject = stream;
+            }
+            
+            return stream;
+        } catch (error) {
+            console.error('Error starting video:', error);
+            throw error;
+        }
+    }
+    
+    async startScreenShare() {
+        try {
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: true
+            });
+            
+            // Replace video track with screen share
+            if (this.localStream) {
+                const videoTrack = stream.getVideoTracks()[0];
+                const sender = this.localStream.getVideoTracks()[0];
+                if (sender) {
+                    sender.replaceTrack(videoTrack);
+                }
+            }
+            
+            return stream;
+        } catch (error) {
+            console.error('Error starting screen share:', error);
+            throw error;
+        }
+    }
+    
+    async stopScreenShare() {
+        try {
+            if (this.localStream) {
+                const videoTracks = this.localStream.getVideoTracks();
+                videoTracks.forEach(track => {
+                    track.stop();
+                });
+            }
+        } catch (error) {
+            console.error('Error stopping screen share:', error);
+            throw error;
+        }
+    }
+    
+    updateVideoButton(enabled) {
+        const videoBtn = document.getElementById('toggle-video');
+        if (videoBtn) {
+            const icon = videoBtn.querySelector('i');
+            const span = videoBtn.querySelector('span');
+            
+            if (enabled) {
+                icon.className = 'fas fa-video';
+                span.textContent = 'فيديو';
+                videoBtn.classList.add('active');
+            } else {
+                icon.className = 'fas fa-video-slash';
+                span.textContent = 'إيقاف الفيديو';
+                videoBtn.classList.remove('active');
+            }
+        }
+    }
+    
+    updateAudioButton(enabled) {
+        const audioBtn = document.getElementById('toggle-audio');
+        if (audioBtn) {
+            const icon = audioBtn.querySelector('i');
+            const span = audioBtn.querySelector('span');
+            
+            if (enabled) {
+                icon.className = 'fas fa-microphone';
+                span.textContent = 'صوت';
+                audioBtn.classList.add('active');
+            } else {
+                icon.className = 'fas fa-microphone-slash';
+                span.textContent = 'إيقاف الصوت';
+                audioBtn.classList.remove('active');
+            }
+        }
+    }
+    
+    updateScreenShareButton(enabled) {
+        const screenShareBtn = document.getElementById('toggle-screen-share');
+        if (screenShareBtn) {
+            const icon = screenShareBtn.querySelector('i');
+            const span = screenShareBtn.querySelector('span');
+            
+            if (enabled) {
+                icon.className = 'fas fa-desktop';
+                span.textContent = 'مشاركة الشاشة';
+                screenShareBtn.classList.add('active');
+            } else {
+                icon.className = 'fas fa-desktop';
+                span.textContent = 'مشاركة الشاشة';
+                screenShareBtn.classList.remove('active');
+            }
+        }
+    }
+    
+    updateTranslationButton() {
+        const translationBtn = document.getElementById('toggle-translation');
+        if (translationBtn) {
+            const icon = translationBtn.querySelector('i');
+            const span = translationBtn.querySelector('span');
+            
+            if (this.translationEnabled) {
+                icon.className = 'fas fa-language';
+                span.textContent = 'ترجمة';
+                translationBtn.classList.add('active');
+            } else {
+                icon.className = 'fas fa-language';
+                span.textContent = 'إيقاف الترجمة';
+                translationBtn.classList.remove('active');
+            }
+        }
+    }
+    
+    showInviteDialog() {
+        // Create invite dialog
+        const dialog = document.createElement('div');
+        dialog.className = 'invite-dialog';
+        dialog.innerHTML = `
+            <div class="dialog-content">
+                <h3>دعوة المشاركين</h3>
+                <div class="invite-options">
+                    <div class="invite-link">
+                        <label>رابط الدعوة:</label>
+                        <div class="link-container">
+                            <input type="text" id="invite-link" readonly>
+                            <button class="btn btn-outline" id="copy-link">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="invite-email">
+                        <label>إرسال دعوة بالبريد الإلكتروني:</label>
+                        <div class="email-container">
+                            <input type="email" id="invite-email" placeholder="البريد الإلكتروني">
+                            <button class="btn btn-primary" id="send-invite">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialog-actions">
+                    <button class="btn btn-outline" id="close-invite">إغلاق</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(dialog);
+        
+        // Generate invite link
+        const inviteLink = `${window.location.origin}${window.location.pathname}?join=${this.generateRoomId()}`;
+        document.getElementById('invite-link').value = inviteLink;
+        
+        // Setup event listeners
+        document.getElementById('copy-link').addEventListener('click', () => {
+            navigator.clipboard.writeText(inviteLink);
+            this.showNotification('تم النسخ', 'تم نسخ رابط الدعوة', 'success');
+        });
+        
+        document.getElementById('send-invite').addEventListener('click', () => {
+            const email = document.getElementById('invite-email').value;
+            if (email) {
+                this.sendEmailInvite(email, inviteLink);
+            }
+        });
+        
+        document.getElementById('close-invite').addEventListener('click', () => {
+            document.body.removeChild(dialog);
+        });
+    }
+    
+    showConferenceSettings() {
+        // Create settings dialog
+        const dialog = document.createElement('div');
+        dialog.className = 'settings-dialog';
+        dialog.innerHTML = `
+            <div class="dialog-content">
+                <h3>إعدادات المحادثة</h3>
+                <div class="settings-options">
+                    <div class="setting-item">
+                        <label>جودة الفيديو:</label>
+                        <select id="video-quality">
+                            <option value="low">منخفضة</option>
+                            <option value="medium" selected>متوسطة</option>
+                            <option value="high">عالية</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>جودة الصوت:</label>
+                        <select id="audio-quality">
+                            <option value="low">منخفضة</option>
+                            <option value="medium" selected>متوسطة</option>
+                            <option value="high">عالية</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="auto-translate" checked>
+                            الترجمة التلقائية
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="noise-cancellation" checked>
+                            إلغاء الضوضاء
+                        </label>
+                    </div>
+                </div>
+                <div class="dialog-actions">
+                    <button class="btn btn-primary" id="save-settings">حفظ</button>
+                    <button class="btn btn-outline" id="close-settings">إغلاق</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(dialog);
+        
+        // Setup event listeners
+        document.getElementById('save-settings').addEventListener('click', () => {
+            this.saveConferenceSettings();
+            document.body.removeChild(dialog);
+        });
+        
+        document.getElementById('close-settings').addEventListener('click', () => {
+            document.body.removeChild(dialog);
+        });
+    }
+    
+    generateRoomId() {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
+    
+    async sendEmailInvite(email, link) {
+        try {
+            // This would typically send an email through a backend service
+            console.log('Sending invite to:', email, 'Link:', link);
+            this.showNotification('تم الإرسال', 'تم إرسال الدعوة بالبريد الإلكتروني', 'success');
+        } catch (error) {
+            console.error('Error sending email invite:', error);
+            this.showNotification('خطأ', 'فشل في إرسال الدعوة', 'error');
+        }
+    }
+    
+    saveConferenceSettings() {
+        const videoQuality = document.getElementById('video-quality').value;
+        const audioQuality = document.getElementById('audio-quality').value;
+        const autoTranslate = document.getElementById('auto-translate').checked;
+        const noiseCancellation = document.getElementById('noise-cancellation').checked;
+        
+        // Save settings
+        const settings = {
+            videoQuality,
+            audioQuality,
+            autoTranslate,
+            noiseCancellation
+        };
+        
+        localStorage.setItem('conference-settings', JSON.stringify(settings));
+        this.showNotification('تم الحفظ', 'تم حفظ الإعدادات', 'success');
+    }
+    
+    // Real-time translation for video conference
+    async processRealTimeTranslation(audioData, language) {
+        if (!this.translationEnabled) return;
+        
+        try {
+            // Convert audio to text
+            const text = await this.speechToText(audioData, language);
+            
+            if (text) {
+                // Translate text
+                const translation = await this.translateText(text, language, this.getTargetLanguage());
+                
+                // Display translation
+                this.displayRealTimeTranslation(text, translation, language);
+            }
+        } catch (error) {
+            console.error('Error in real-time translation:', error);
+        }
+    }
+    
+    displayRealTimeTranslation(originalText, translatedText, sourceLanguage) {
+        const translationContent = document.getElementById('translation-content');
+        if (translationContent) {
+            const translationItem = document.createElement('div');
+            translationItem.className = 'translation-item';
+            translationItem.innerHTML = `
+                <div class="translation-text">${translatedText}</div>
+                <div class="translation-meta">
+                    <span class="translation-language">${this.getLanguageName(sourceLanguage)}</span>
+                    <span class="translation-timestamp">${new Date().toLocaleTimeString('ar-SA')}</span>
+                </div>
+            `;
+            
+            translationContent.appendChild(translationItem);
+            
+            // Keep only last 10 translations
+            const items = translationContent.querySelectorAll('.translation-item');
+            if (items.length > 10) {
+                items[0].remove();
+            }
+        }
+    }
+    
+    getLanguageName(code) {
+        const languages = {
+            'ar': 'العربية', 'en': 'English', 'fr': 'Français', 'es': 'Español',
+            'de': 'Deutsch', 'it': 'Italiano', 'pt': 'Português', 'ru': 'Русский',
+            'zh': '中文', 'ja': '日本語', 'ko': '한국어', 'hi': 'हिन्दी'
+        };
+        return languages[code] || code;
+    }
+    
+    getTargetLanguage() {
+        // Get target language from UI
+        const targetSelect = document.getElementById('participant2-lang');
+        return targetSelect ? targetSelect.value : 'en';
     }
 }
 

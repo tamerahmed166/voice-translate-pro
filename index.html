@@ -42,10 +42,6 @@
                     <i class="fas fa-comments"></i>
                     المحادثة الثنائية
                 </a>
-                <a href="group-conversation.html" class="nav-link">
-                    <i class="fas fa-users"></i>
-                    المحادثة الجماعية
-                </a>
                 <a href="smart-translate.html" class="nav-link">
                     <i class="fas fa-brain"></i>
                     الذكية
@@ -80,6 +76,10 @@
                 <p class="hero-description">
                     تطبيق ويب متقدم للترجمة الصوتية والنصية يدعم أكثر من 100 لغة مع ميزات ذكية متطورة
                 </p>
+                <div id="integration-status" class="integration-status status-unknown">
+                    <span class="status-icon">🔄</span>
+                    <span class="status-text">جاري التحقق من الاتصال...</span>
+                </div>
                 <div class="hero-buttons">
                     <a href="translate.html" class="btn btn-primary btn-large">
                         <i class="fas fa-play"></i>
@@ -246,6 +246,9 @@
 
     <!-- Scripts -->
     <script src="config.js"></script>
+    <script src="frontend-config.js"></script>
+    <script src="api-service.js"></script>
+    <script src="integration-manager.js"></script>
     <script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
     <script src="script.js"></script>
     <script src="test-app.js"></script>

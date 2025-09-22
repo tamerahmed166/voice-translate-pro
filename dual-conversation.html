@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="conversation-styles.css">
+    <link rel="stylesheet" href="enhanced-conversation-styles.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -42,10 +43,6 @@
                 <a href="dual-conversation.html" class="nav-link active">
                     <i class="fas fa-comments"></i>
                     المحادثة الثنائية
-                </a>
-                <a href="group-conversation.html" class="nav-link">
-                    <i class="fas fa-users"></i>
-                    المحادثة الجماعية
                 </a>
                 <a href="smart-translate.html" class="nav-link">
                     <i class="fas fa-brain"></i>
@@ -83,7 +80,83 @@
             <div class="conversation-setup" id="conversation-setup">
                 <div class="setup-card">
                     <h2>إعداد المحادثة</h2>
-                    <p>اختر اللغات للمشاركين في المحادثة</p>
+                    <p>اختر اللغات للمشاركين في المحادثة مع إمكانية الصوت والفيديو</p>
+                    
+                    <!-- Conversation Type Selection -->
+                    <div class="conversation-type-selection">
+                        <h3>نوع المحادثة</h3>
+                        <div class="type-options">
+                            <label class="type-option">
+                                <input type="radio" name="conversation-type" value="dual" checked>
+                                <div class="type-card">
+                                    <i class="fas fa-comments"></i>
+                                    <h4>محادثة ثنائية</h4>
+                                    <p>محادثة بين شخصين</p>
+                                </div>
+                            </label>
+                            <label class="type-option">
+                                <input type="radio" name="conversation-type" value="group">
+                                <div class="type-card">
+                                    <i class="fas fa-users"></i>
+                                    <h4>محادثة جماعية</h4>
+                                    <p>محادثة مع عدة أشخاص</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Media Options -->
+                    <div class="media-options">
+                        <h3>خيارات الوسائط</h3>
+                        <div class="media-controls">
+                            <label class="media-option">
+                                <input type="checkbox" id="enable-video" checked>
+                                <i class="fas fa-video"></i>
+                                <span>فيديو</span>
+                            </label>
+                            <label class="media-option">
+                                <input type="checkbox" id="enable-audio" checked>
+                                <i class="fas fa-microphone"></i>
+                                <span>صوت</span>
+                            </label>
+                            <label class="media-option">
+                                <input type="checkbox" id="enable-screen-share">
+                                <i class="fas fa-desktop"></i>
+                                <span>مشاركة الشاشة</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Setup (Hidden by default) -->
+                    <div class="group-setup" id="group-setup" style="display: none;">
+                        <h3>إعداد المجموعة</h3>
+                        <div class="group-controls">
+                            <div class="group-name-input">
+                                <label for="group-name">اسم المجموعة</label>
+                                <input type="text" id="group-name" placeholder="أدخل اسم المجموعة">
+                            </div>
+                            <div class="max-participants">
+                                <label for="max-participants">الحد الأقصى للمشاركين</label>
+                                <select id="max-participants">
+                                    <option value="4">4 مشاركين</option>
+                                    <option value="8">8 مشاركين</option>
+                                    <option value="16">16 مشارك</option>
+                                    <option value="32">32 مشارك</option>
+                                    <option value="50">50 مشارك</option>
+                                </select>
+                            </div>
+                            <div class="group-settings">
+                                <label class="setting-option">
+                                    <input type="checkbox" id="allow-participants-join" checked>
+                                    <span>السماح للمشاركين بالانضمام تلقائياً</span>
+                                </label>
+                                <label class="setting-option">
+                                    <input type="checkbox" id="moderator-control" checked>
+                                    <span>تحكم المشرف في الصوت والفيديو</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="participant-setup">
                         <div class="participant">
@@ -253,6 +326,45 @@
                         </div>
                     </div>
                     
+                    <!-- Conversation Mode Selection -->
+                    <div class="conversation-mode-selection">
+                        <h3>وضع المحادثة</h3>
+                        <div class="mode-options">
+                            <label class="mode-option">
+                                <input type="radio" name="conversation-mode" value="voice" checked>
+                                <div class="mode-card">
+                                    <i class="fas fa-microphone"></i>
+                                    <h4>صوتي</h4>
+                                    <p>محادثة صوتية مع ترجمة فورية</p>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="conversation-mode" value="video">
+                                <div class="mode-card">
+                                    <i class="fas fa-video"></i>
+                                    <h4>فيديو</h4>
+                                    <p>محادثة بالفيديو مع ترجمة فورية</p>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="conversation-mode" value="text">
+                                <div class="mode-card">
+                                    <i class="fas fa-keyboard"></i>
+                                    <h4>نصي</h4>
+                                    <p>محادثة نصية مع ترجمة فورية</p>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="conversation-mode" value="mixed">
+                                <div class="mode-card">
+                                    <i class="fas fa-comments"></i>
+                                    <h4>مختلط</h4>
+                                    <p>صوت ونص مع ترجمة فورية</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
                     <div class="setup-actions">
                         <button class="btn btn-primary btn-large" id="start-conversation">
                             <i class="fas fa-play"></i>
@@ -281,12 +393,20 @@
                         </div>
                     </div>
                     <div class="conversation-controls">
+                        <button class="btn btn-outline" id="settings-btn">
+                            <i class="fas fa-cog"></i>
+                            الإعدادات
+                        </button>
+                        <button class="btn btn-outline" id="invite-btn">
+                            <i class="fas fa-user-plus"></i>
+                            دعوة
+                        </button>
                         <button class="btn btn-outline" id="pause-conversation">
                             <i class="fas fa-pause"></i>
                             إيقاف مؤقت
                         </button>
-                        <button class="btn btn-outline" id="end-conversation">
-                            <i class="fas fa-stop"></i>
+                        <button class="btn btn-danger" id="end-conversation">
+                            <i class="fas fa-phone-slash"></i>
                             إنهاء المحادثة
                         </button>
                     </div>
@@ -296,11 +416,15 @@
                 <div class="conversation-modes">
                     <button class="mode-btn active" data-mode="voice">
                         <i class="fas fa-microphone"></i>
-                        محادثة صوتية
+                        صوتي
+                    </button>
+                    <button class="mode-btn" data-mode="video">
+                        <i class="fas fa-video"></i>
+                        فيديو
                     </button>
                     <button class="mode-btn" data-mode="text">
                         <i class="fas fa-keyboard"></i>
-                        محادثة نصية
+                        نصي
                     </button>
                     <button class="mode-btn" data-mode="mixed">
                         <i class="fas fa-comments"></i>
@@ -378,6 +502,62 @@
                                         <p>Press the speak button and start talking</p>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Conference Mode -->
+                <div class="conversation-mode" id="video-mode">
+                    <div class="video-conference">
+                        <!-- Video Grid -->
+                        <div class="video-grid" id="video-grid">
+                            <!-- Video containers will be dynamically added here -->
+                        </div>
+                        
+                        <!-- Translation Display -->
+                        <div class="translation-display" id="translation-display">
+                            <div class="translation-panel">
+                                <h3>الترجمة الفورية</h3>
+                                <div class="translation-content" id="translation-content">
+                                    <div class="placeholder">
+                                        <i class="fas fa-language"></i>
+                                        <p>ستظهر الترجمة الفورية هنا</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Conference Controls -->
+                        <div class="conference-controls">
+                            <div class="media-controls">
+                                <button class="control-btn" id="toggle-video">
+                                    <i class="fas fa-video"></i>
+                                    <span>فيديو</span>
+                                </button>
+                                <button class="control-btn" id="toggle-audio">
+                                    <i class="fas fa-microphone"></i>
+                                    <span>صوت</span>
+                                </button>
+                                <button class="control-btn" id="toggle-screen-share">
+                                    <i class="fas fa-desktop"></i>
+                                    <span>مشاركة الشاشة</span>
+                                </button>
+                                <button class="control-btn" id="toggle-translation">
+                                    <i class="fas fa-language"></i>
+                                    <span>ترجمة</span>
+                                </button>
+                            </div>
+                            
+                            <div class="participant-controls">
+                                <button class="control-btn" id="invite-participants">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>دعوة</span>
+                                </button>
+                                <button class="control-btn" id="conference-settings">
+                                    <i class="fas fa-cog"></i>
+                                    <span>إعدادات</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -482,6 +662,7 @@
     <!-- Scripts -->
     <script src="script.js"></script>
     <script src="conversation-script.js"></script>
+    <script src="enhanced-conversation-features.js"></script>
 </body>
 </html>
 
